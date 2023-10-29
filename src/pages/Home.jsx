@@ -23,6 +23,8 @@ function Home() {
     board2: [],
   });
 
+  const [modalActive, setModalActive] = useState(false);
+
   function AddTaskFunction(boardId, taskName) {
     const newTask = {
       id: uuidv4(),
@@ -175,15 +177,21 @@ function Home() {
         </p>
       )}
       <hr className="mb-[35px]" />
-      <div className="flex flex-wrap justify-around items-center gap-y-10">
+      <div className="flex flex-wrap justify-around items-start gap-y-10">
         <GridContextProvider onChange={onChange}>
           <Board name="To do">
             <GridDropZone
+              disableDrag={modalActive}
               className="board0"
               id="board0"
               boxesPerRow={1}
               rowHeight={65}
-              style={{ height: 250 }}
+              style={{
+                height:
+                  boards.board0.length === 0
+                    ? 65 * Math.ceil(boards.board0.length + 1) + 20
+                    : 65 * Math.ceil(boards.board0.length) + 20,
+              }}
             >
               {boards.board0.map((task) => (
                 <GridItem key={task.id}>
@@ -195,6 +203,7 @@ function Home() {
                         taskId={task.id}
                         editFunction={EditTaskFunction}
                         previousTaskName={task.name}
+                        modalToggleFunction={setModalActive}
                       />
                     }
                     removeButton={
@@ -202,6 +211,7 @@ function Home() {
                         boardId={0}
                         taskId={task.id}
                         removeFunction={RemoveTaskFunction}
+                        modalToggleFunction={setModalActive}
                       />
                     }
                   />
@@ -213,11 +223,17 @@ function Home() {
           </Board>
           <Board name="In progress">
             <GridDropZone
+              disableDrag={modalActive}
               className="board1"
               id="board1"
               boxesPerRow={1}
               rowHeight={65}
-              style={{ height: 250 }}
+              style={{
+                height:
+                  boards.board1.length === 0
+                    ? 65 * Math.ceil(boards.board1.length + 1) + 20
+                    : 65 * Math.ceil(boards.board1.length) + 20,
+              }}
             >
               {boards.board1.map((task) => (
                 <GridItem key={task.id}>
@@ -229,6 +245,7 @@ function Home() {
                         taskId={task.id}
                         editFunction={EditTaskFunction}
                         previousTaskName={task.name}
+                        modalToggleFunction={setModalActive}
                       />
                     }
                     removeButton={
@@ -236,6 +253,7 @@ function Home() {
                         boardId={1}
                         taskId={task.id}
                         removeFunction={RemoveTaskFunction}
+                        modalToggleFunction={setModalActive}
                       />
                     }
                   />
@@ -247,11 +265,17 @@ function Home() {
           </Board>
           <Board name="Done">
             <GridDropZone
+              disableDrag={modalActive}
               className="board2"
               id="board2"
               boxesPerRow={1}
               rowHeight={65}
-              style={{ height: 250 }}
+              style={{
+                height:
+                  boards.board2.length === 0
+                    ? 65 * Math.ceil(boards.board2.length + 1) + 20
+                    : 65 * Math.ceil(boards.board2.length) + 20,
+              }}
             >
               {boards.board2.map((task) => (
                 <GridItem key={task.id}>
@@ -263,6 +287,7 @@ function Home() {
                         taskId={task.id}
                         editFunction={EditTaskFunction}
                         previousTaskName={task.name}
+                        modalToggleFunction={setModalActive}
                       />
                     }
                     removeButton={
@@ -270,6 +295,7 @@ function Home() {
                         boardId={2}
                         taskId={task.id}
                         removeFunction={RemoveTaskFunction}
+                        modalToggleFunction={setModalActive}
                       />
                     }
                   />

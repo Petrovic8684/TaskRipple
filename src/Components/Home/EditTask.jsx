@@ -1,7 +1,13 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function EditTask({ boardId, taskId, editFunction, previousTaskName }) {
+function EditTask({
+  boardId,
+  taskId,
+  editFunction,
+  previousTaskName,
+  modalToggleFunction,
+}) {
   const [taskName, setTaskName] = useState(previousTaskName);
 
   const [show, setShow] = useState(false);
@@ -12,7 +18,10 @@ function EditTask({ boardId, taskId, editFunction, previousTaskName }) {
   return (
     <>
       <button
-        onClick={handleShow}
+        onClick={() => {
+          handleShow();
+          modalToggleFunction(true);
+        }}
         className="h-[30px] px-[15px] text-2xl text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"
       >
         <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em">
@@ -69,12 +78,16 @@ function EditTask({ boardId, taskId, editFunction, previousTaskName }) {
         </Modal.Body>
         <Modal.Footer>
           <button
-            onClick={handleClose}
+            onClick={() => {
+              handleClose();
+              modalToggleFunction(false);
+            }}
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
           >
             Close
           </button>
           <button
+            onClick={() => modalToggleFunction(false)}
             form="edittask"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"
           >

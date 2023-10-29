@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function RemoveTask({ boardId, taskId, removeFunction }) {
+function RemoveTask({ boardId, taskId, removeFunction, modalToggleFunction }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -10,7 +10,10 @@ function RemoveTask({ boardId, taskId, removeFunction }) {
   return (
     <>
       <button
-        onClick={handleShow}
+        onClick={() => {
+          handleShow();
+          modalToggleFunction(true);
+        }}
         className="h-[30px] px-[15px] text-2xl text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
       >
         <svg
@@ -54,12 +57,16 @@ function RemoveTask({ boardId, taskId, removeFunction }) {
         </Modal.Body>
         <Modal.Footer>
           <button
-            onClick={handleClose}
+            onClick={() => {
+              handleClose();
+              modalToggleFunction(false);
+            }}
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
           >
             No
           </button>
           <button
+            onClick={() => modalToggleFunction(false)}
             form="removetask"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
           >
