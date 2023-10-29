@@ -1,9 +1,11 @@
 import { useState } from "react";
 
 import Board from "../Components/Home/Board";
-import AddBoard from "../Components/Home/AddBoard";
-import EditBoard from "../Components/Home/EditBoard";
-import RemoveBoard from "../Components/Home/RemoveBoard";
+
+import Task from "../Components/Home/Task";
+import AddTask from "../Components/Home/AddTask";
+import EditTask from "../Components/Home/EditTask";
+import RemoveTask from "../Components/Home/RemoveTask";
 
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -11,41 +13,155 @@ import {
   GridDropZone,
   GridItem,
   swap,
+  move,
 } from "react-grid-dnd";
 
 function Home() {
-  const [boards, setBoards] = useState([]);
+  const [boards, setBoards] = useState({
+    board0: [],
+    board1: [],
+    board2: [],
+  });
 
-  function AddBoardFunction(boardName) {
-    const newBoard = {
+  function AddTaskFunction(boardId, taskName) {
+    const newTask = {
       id: uuidv4(),
-      name: boardName,
+      name: taskName,
     };
-    setBoards([...boards, newBoard]);
+
+    if (boardId === 0) {
+      setBoards((prevState) => {
+        return {
+          ...boards,
+          board0: [...prevState.board0, newTask],
+        };
+      });
+    }
+
+    if (boardId === 1) {
+      setBoards((prevState) => {
+        return {
+          ...boards,
+          board1: [...prevState.board1, newTask],
+        };
+      });
+    }
+
+    if (boardId === 2) {
+      setBoards((prevState) => {
+        return {
+          ...boards,
+          board2: [...prevState.board2, newTask],
+        };
+      });
+    }
   }
 
-  function EditBoardFunction(id, newName) {
-    const updatedBoards = boards.map((board) => {
-      if (id === board.id) {
-        return { ...board, name: newName };
-      }
+  function EditTaskFunction(boardId, taskId, taskName) {
+    if (boardId === 0) {
+      setBoards((prevState) => {
+        return {
+          ...boards,
+          board0: prevState.board0.map((task) => {
+            if (task.id === taskId) {
+              const newTask = task;
+              newTask.name = taskName;
+              return newTask;
+            }
+            return task;
+          }),
+        };
+      });
+    }
 
-      return board;
+    if (boardId === 1) {
+      setBoards((prevState) => {
+        return {
+          ...boards,
+          board1: prevState.board1.map((task) => {
+            if (task.id === taskId) {
+              const newTask = task;
+              newTask.name = taskName;
+              return newTask;
+            }
+            return task;
+          }),
+        };
+      });
+    }
+
+    if (boardId === 2) {
+      setBoards((prevState) => {
+        return {
+          ...boards,
+          board2: prevState.board2.map((task) => {
+            if (task.id === taskId) {
+              const newTask = task;
+              newTask.name = taskName;
+              return newTask;
+            }
+            return task;
+          }),
+        };
+      });
+    }
+  }
+
+  function RemoveTaskFunction(boardId, taskId) {
+    if (boardId === 0) {
+      setBoards((prevState) => {
+        return {
+          ...boards,
+          board0: prevState.board0.filter((task) => {
+            return task.id !== taskId;
+          }),
+        };
+      });
+    }
+
+    if (boardId === 1) {
+      setBoards((prevState) => {
+        return {
+          ...boards,
+          board1: prevState.board1.filter((task) => {
+            return task.id !== taskId;
+          }),
+        };
+      });
+    }
+
+    if (boardId === 2) {
+      setBoards((prevState) => {
+        return {
+          ...boards,
+          board2: prevState.board2.filter((task) => {
+            return task.id !== taskId;
+          }),
+        };
+      });
+    }
+  }
+
+  function onChange(sourceId, sourceIndex, targetIndex, targetId) {
+    if (targetId) {
+      const result = move(
+        boards[sourceId],
+        boards[targetId],
+        sourceIndex,
+        targetIndex
+      );
+      return setBoards({
+        ...boards,
+        [sourceId]: result[0],
+        [targetId]: result[1],
+      });
+    }
+
+    const result = swap(boards[sourceId], sourceIndex, targetIndex);
+    return setBoards({
+      ...boards,
+      [sourceId]: result,
     });
-    setBoards(updatedBoards);
-  }
-
-  function RemoveBoardFunction(id) {
-    setBoards(
-      boards.filter((board) => {
-        return board.id !== id;
-      })
-    );
-  }
-
-  function onBoardChange(sorceId, sourceIndex, targetIndex) {
-    const nextState = swap(boards, sourceIndex, targetIndex);
-    setBoards(nextState);
   }
 
   return (
@@ -58,38 +174,112 @@ function Home() {
           Looks like you don't have any boards yet!
         </p>
       )}
-      <AddBoard addFunction={AddBoardFunction} />
       <hr className="mb-[35px]" />
-      <GridContextProvider onChange={onBoardChange}>
-        <GridDropZone
-          id="boards"
-          boxesPerRow={4}
-          rowHeight={450}
-          style={{ height: 450 * Math.ceil(boards.length / 4) }}
-        >
-          {boards.map((board) => (
-            <GridItem key={board.id}>
-              <Board
-                id={board.id}
-                name={board.name}
-                editButton={
-                  <EditBoard
-                    boardId={board.id}
-                    editFunction={EditBoardFunction}
-                    previousBoardName={board.name}
+      <div className="flex flex-wrap justify-around items-center gap-y-10">
+        <GridContextProvider onChange={onChange}>
+          <Board name="To do">
+            <GridDropZone
+              className="board0"
+              id="board0"
+              boxesPerRow={1}
+              rowHeight={65}
+              style={{ height: 250 }}
+            >
+              {boards.board0.map((task) => (
+                <GridItem key={task.id}>
+                  <Task
+                    name={task.name}
+                    editButton={
+                      <EditTask
+                        boardId={0}
+                        taskId={task.id}
+                        editFunction={EditTaskFunction}
+                        previousTaskName={task.name}
+                      />
+                    }
+                    removeButton={
+                      <RemoveTask
+                        boardId={0}
+                        taskId={task.id}
+                        removeFunction={RemoveTaskFunction}
+                      />
+                    }
                   />
-                }
-                removeButton={
-                  <RemoveBoard
-                    boardId={board.id}
-                    removeFunction={RemoveBoardFunction}
+                </GridItem>
+              ))}
+            </GridDropZone>
+
+            <AddTask boardId={0} addFunction={AddTaskFunction} />
+          </Board>
+          <Board name="In progress">
+            <GridDropZone
+              className="board1"
+              id="board1"
+              boxesPerRow={1}
+              rowHeight={65}
+              style={{ height: 250 }}
+            >
+              {boards.board1.map((task) => (
+                <GridItem key={task.id}>
+                  <Task
+                    name={task.name}
+                    editButton={
+                      <EditTask
+                        boardId={1}
+                        taskId={task.id}
+                        editFunction={EditTaskFunction}
+                        previousTaskName={task.name}
+                      />
+                    }
+                    removeButton={
+                      <RemoveTask
+                        boardId={1}
+                        taskId={task.id}
+                        removeFunction={RemoveTaskFunction}
+                      />
+                    }
                   />
-                }
-              />
-            </GridItem>
-          ))}
-        </GridDropZone>
-      </GridContextProvider>
+                </GridItem>
+              ))}
+            </GridDropZone>
+
+            <AddTask boardId={1} addFunction={AddTaskFunction} />
+          </Board>
+          <Board name="Done">
+            <GridDropZone
+              className="board2"
+              id="board2"
+              boxesPerRow={1}
+              rowHeight={65}
+              style={{ height: 250 }}
+            >
+              {boards.board2.map((task) => (
+                <GridItem key={task.id}>
+                  <Task
+                    name={task.name}
+                    editButton={
+                      <EditTask
+                        boardId={2}
+                        taskId={task.id}
+                        editFunction={EditTaskFunction}
+                        previousTaskName={task.name}
+                      />
+                    }
+                    removeButton={
+                      <RemoveTask
+                        boardId={2}
+                        taskId={task.id}
+                        removeFunction={RemoveTaskFunction}
+                      />
+                    }
+                  />
+                </GridItem>
+              ))}
+            </GridDropZone>
+            <AddTask boardId={2} addFunction={AddTaskFunction} />
+          </Board>
+        </GridContextProvider>
+      </div>
     </section>
   );
 }

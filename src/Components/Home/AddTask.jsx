@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function AddTask({ addFunction }) {
+function AddTask({ boardId, addFunction }) {
   const [taskName, setTaskName] = useState("");
 
   const [show, setShow] = useState(false);
@@ -41,7 +41,7 @@ function AddTask({ addFunction }) {
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              addFunction(taskName);
+              addFunction(boardId, taskName);
               setTaskName("");
             }}
             autoComplete="off"
