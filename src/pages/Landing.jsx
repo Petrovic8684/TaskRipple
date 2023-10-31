@@ -1,21 +1,24 @@
-import {useState, useEffect} from 'react'
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Landing() {
-    const [quote, setQuote] = useState({});
+  const [quote, setQuote] = useState({});
 
-    useEffect(() => {
-      async function getQuote(){
-          const response= await axios.get('https://api.quotable.io/random?tags=business|creativity|inspirational|knowledge|leadership|work&maxLength=120');
-          setQuote((quote) => ({
-              ...quote,
-              content: response.data.content,
-              author: response.data.author
-          }));
-      };
+  useEffect(() => {
+    async function getQuote() {
+      const response = await axios.get(
+        "https://api.quotable.io/random?tags=business|creativity|inspirational|knowledge|leadership|work&maxLength=120"
+      );
+      setQuote((quote) => ({
+        ...quote,
+        content: response.data.content,
+        author: response.data.author,
+      }));
+    }
 
-      getQuote();
-    }, []);
+    getQuote();
+  }, []);
 
   return (
     <section className="h-screen flex items-center bg-white">
@@ -28,11 +31,11 @@ function Landing() {
             <span>is a simple way to manage your tasks.</span>
           </h1>
           <p className="mb-8 text-lg text-gray-600 md:text-xl lg:px-24">
-          {quote.content} <br /> -{quote.author}
+            {quote.content} <br /> -{quote.author}
           </p>
           <div className="mb-4 space-x-0 md:space-x-2 md:mb-8">
-            <a
-              href="/home"
+            <Link
+              to="/home"
               className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-green-400 rounded-2xl sm:w-auto sm:mb-0"
             >
               Get Started
@@ -48,9 +51,9 @@ function Landing() {
                   clipRule="evenodd"
                 ></path>
               </svg>
-            </a>
-            <a
-              href="#_"
+            </Link>
+            <Link
+              to="/"
               className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-gray-400 rounded-2xl sm:w-auto sm:mb-0"
             >
               Learn More
@@ -68,7 +71,7 @@ function Landing() {
                   d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                 ></path>
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
