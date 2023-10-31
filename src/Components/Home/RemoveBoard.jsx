@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function RemoveTask({ boardName, taskId, removeFunction }) {
+function RemoveBoard({ boardName, removeFunction }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -11,7 +11,7 @@ function RemoveTask({ boardName, taskId, removeFunction }) {
     <>
       <button
         onClick={handleShow}
-        className="h-[30px] px-[15px] text-2xl text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
+        className="h-[42px] px-[16px] text-2xl text-white bg-red-400 rounded-2xl md:text-4xl md:w-auto md:mb-0"
       >
         <svg
           fill="none"
@@ -34,21 +34,21 @@ function RemoveTask({ boardName, taskId, removeFunction }) {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Remove Task</Modal.Title>
+          <Modal.Title>Remove Board</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              removeFunction(boardName, taskId);
+              removeFunction(boardName);
             }}
             autoComplete="off"
-            id="removetask"
+            id="removeboard"
             className="w-full md:max-w-sm md:w-auto"
           >
             <div className="md:flex md:items-center mb-6">
-              <p>Are you sure you want to remove this task?</p>
+              <p>Are you sure you want to remove this board?</p>
             </div>
           </form>
         </Modal.Body>
@@ -60,7 +60,7 @@ function RemoveTask({ boardName, taskId, removeFunction }) {
             No
           </button>
           <button
-            form="removetask"
+            form="removeboard"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
           >
             Yes
@@ -71,4 +71,4 @@ function RemoveTask({ boardName, taskId, removeFunction }) {
   );
 }
 
-export default RemoveTask;
+export default RemoveBoard;

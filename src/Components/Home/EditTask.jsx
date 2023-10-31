@@ -1,13 +1,7 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function EditTask({
-  boardId,
-  taskId,
-  editFunction,
-  previousTaskName,
-  modalToggleFunction,
-}) {
+function EditTask({ boardName, taskId, editFunction, previousTaskName }) {
   const [taskName, setTaskName] = useState(previousTaskName);
 
   const [show, setShow] = useState(false);
@@ -18,10 +12,7 @@ function EditTask({
   return (
     <>
       <button
-        onClick={() => {
-          handleShow();
-          modalToggleFunction(true);
-        }}
+        onClick={handleShow}
         className="h-[30px] px-[15px] text-2xl text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"
       >
         <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em">
@@ -43,7 +34,7 @@ function EditTask({
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              editFunction(boardId, taskId, taskName);
+              editFunction(boardName, taskId, taskName);
               setTaskName("");
             }}
             autoComplete="off"
@@ -78,16 +69,12 @@ function EditTask({
         </Modal.Body>
         <Modal.Footer>
           <button
-            onClick={() => {
-              handleClose();
-              modalToggleFunction(false);
-            }}
+            onClick={handleClose}
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
           >
             Close
           </button>
           <button
-            onClick={() => modalToggleFunction(false)}
             form="edittask"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"
           >

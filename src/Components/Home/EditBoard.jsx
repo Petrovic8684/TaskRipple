@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function AddTask({ boardName, addFunction }) {
-  const [taskName, setTaskName] = useState("");
+function EditBoard({ boardName, editFunction, previousBoardName }) {
+  const [currentBoardName, setCurrentBoardName] = useState(previousBoardName);
 
   const [show, setShow] = useState(false);
 
@@ -13,17 +13,10 @@ function AddTask({ boardName, addFunction }) {
     <>
       <button
         onClick={handleShow}
-        className="flex justify-center items-center w-[40px] h-[35px] mb-2 text-xl text-white bg-green-400 rounded-2xl md:text-3xl md:w-[42px] md:mb-0 md:w-[51px] md:h-[45px]"
+        className="h-[42px] px-[16px] text-2xl text-white bg-yellow-300 rounded-2xl md:text-4xl md:w-auto md:mb-0"
       >
-        <svg viewBox="0 0 512 512" fill="currentColor" height="1em" width="1em">
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={32}
-            d="M256 112v288M400 256H112"
-          />
+        <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em">
+          <path d="M13.498.795l.149-.149a1.207 1.207 0 111.707 1.708l-.149.148a1.5 1.5 0 01-.059 2.059L4.854 14.854a.5.5 0 01-.233.131l-4 1a.5.5 0 01-.606-.606l1-4a.5.5 0 01.131-.232l9.642-9.642a.5.5 0 00-.642.056L6.854 4.854a.5.5 0 11-.708-.708L9.44.854A1.5 1.5 0 0111.5.796a1.5 1.5 0 011.998-.001zm-.644.766a.5.5 0 00-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 000-.708l-1.585-1.585z" />
         </svg>
       </button>
 
@@ -34,18 +27,18 @@ function AddTask({ boardName, addFunction }) {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>New Task</Modal.Title>
+          <Modal.Title>Edit Board</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              addFunction(boardName, taskName);
-              setTaskName("");
+              editFunction(boardName, currentBoardName);
+              setCurrentBoardName("");
             }}
             autoComplete="off"
-            id="addtask"
+            id="editboard"
             className="w-full md:max-w-sm md:w-auto"
           >
             <div className="md:flex md:items-center mb-6">
@@ -54,17 +47,17 @@ function AddTask({ boardName, addFunction }) {
                   className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
                   htmlFor="inline-full-name"
                 >
-                  Task name:
+                  Board name:
                 </label>
               </div>
               <div className="md:w-2/3">
                 <input
-                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-400"
+                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-300"
                   id="inline-full-name"
                   type="text"
-                  value={taskName}
+                  value={currentBoardName}
                   onChange={(e) => {
-                    setTaskName(e.target.value);
+                    setCurrentBoardName(e.target.value);
                   }}
                   autoFocus
                   required
@@ -82,10 +75,10 @@ function AddTask({ boardName, addFunction }) {
             Close
           </button>
           <button
-            form="addtask"
-            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-green-400 rounded-2xl md:w-auto md:mb-0"
+            form="editboard"
+            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"
           >
-            Create
+            Edit
           </button>
         </Modal.Footer>
       </Modal>
@@ -93,4 +86,4 @@ function AddTask({ boardName, addFunction }) {
   );
 }
 
-export default AddTask;
+export default EditBoard;

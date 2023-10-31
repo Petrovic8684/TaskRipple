@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function AddTask({ boardName, addFunction }) {
-  const [taskName, setTaskName] = useState("");
+function AddBoard({ addFunction }) {
+  const [boardName, setBoardName] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -13,7 +13,7 @@ function AddTask({ boardName, addFunction }) {
     <>
       <button
         onClick={handleShow}
-        className="flex justify-center items-center w-[40px] h-[35px] mb-2 text-xl text-white bg-green-400 rounded-2xl md:text-3xl md:w-[42px] md:mb-0 md:w-[51px] md:h-[45px]"
+        className="h-[50px] px-[17px] mb-2 text-2xl text-white bg-green-400 rounded-2xl md:text-4xl md:w-auto md:mb-0 md:h-[70px] md:px-[23px]"
       >
         <svg viewBox="0 0 512 512" fill="currentColor" height="1em" width="1em">
           <path
@@ -34,18 +34,18 @@ function AddTask({ boardName, addFunction }) {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>New Task</Modal.Title>
+          <Modal.Title>New Board</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              addFunction(boardName, taskName);
-              setTaskName("");
+              addFunction(boardName);
+              setBoardName("");
             }}
             autoComplete="off"
-            id="addtask"
+            id="addboard"
             className="w-full md:max-w-sm md:w-auto"
           >
             <div className="md:flex md:items-center mb-6">
@@ -54,7 +54,7 @@ function AddTask({ boardName, addFunction }) {
                   className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
                   htmlFor="inline-full-name"
                 >
-                  Task name:
+                  Board name:
                 </label>
               </div>
               <div className="md:w-2/3">
@@ -62,9 +62,9 @@ function AddTask({ boardName, addFunction }) {
                   className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-400"
                   id="inline-full-name"
                   type="text"
-                  value={taskName}
+                  value={boardName}
                   onChange={(e) => {
-                    setTaskName(e.target.value);
+                    setBoardName(e.target.value);
                   }}
                   autoFocus
                   required
@@ -82,7 +82,7 @@ function AddTask({ boardName, addFunction }) {
             Close
           </button>
           <button
-            form="addtask"
+            form="addboard"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-green-400 rounded-2xl md:w-auto md:mb-0"
           >
             Create
@@ -93,4 +93,4 @@ function AddTask({ boardName, addFunction }) {
   );
 }
 
-export default AddTask;
+export default AddBoard;
