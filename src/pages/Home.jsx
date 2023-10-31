@@ -5,47 +5,127 @@ import AddBoard from "../Components/Home/AddBoard";
 import EditBoard from "../Components/Home/EditBoard";
 import RemoveBoard from "../Components/Home/RemoveBoard";
 
+import Task from "../Components/Home/Task";
+import AddTask from "../Components/Home/AddTask";
+import EditTask from "../Components/Home/EditTask";
+import RemoveTask from "../Components/Home/RemoveTask";
+
 import { v4 as uuidv4 } from "uuid";
 import {
   GridContextProvider,
   GridDropZone,
   GridItem,
   swap,
+  move,
 } from "react-grid-dnd";
 
 function Home() {
-  const [boards, setBoards] = useState([]);
+  const [boards, setBoards] = useState({
+    "To Do": [],
+    "In Progress": [],
+    Done: [],
+  });
 
   function AddBoardFunction(boardName) {
-    const newBoard = {
-      id: uuidv4(),
-      name: boardName,
-    };
-    setBoards([...boards, newBoard]);
+    setBoards({ ...boards, [boardName]: [] });
   }
 
-  function EditBoardFunction(id, newName) {
-    const updatedBoards = boards.map((board) => {
-      if (id === board.id) {
-        return { ...board, name: newName };
+  function EditBoardFunction(boardName, newName) {
+    const keys = Object.keys(boards);
+    const newObj = keys.reduce((acc, val) => {
+      if (val === boardName) {
+        acc[newName] = boards[boardName];
+      } else {
+        acc[val] = boards[val];
       }
+      return acc;
+    }, {});
 
-      return board;
+    setBoards(newObj);
+  }
+
+  function RemoveBoardFunction(boardName) {
+    setBoards((prevState) => {
+      const copy = { ...prevState };
+      delete copy[boardName];
+
+      return copy;
     });
-    setBoards(updatedBoards);
   }
 
-  function RemoveBoardFunction(id) {
-    setBoards(
-      boards.filter((board) => {
-        return board.id !== id;
-      })
-    );
+  function AddTaskFunction(boardName, taskName) {
+    const newTask = {
+      id: uuidv4(),
+      name: taskName,
+    };
+
+    Object.keys(boards).forEach((board) => {
+      if (board === boardName) {
+        setBoards((prevState) => {
+          return {
+            ...boards,
+            [board]: [...prevState[board], newTask],
+          };
+        });
+      }
+    });
   }
 
-  function onBoardChange(sorceId, sourceIndex, targetIndex) {
-    const nextState = swap(boards, sourceIndex, targetIndex);
-    setBoards(nextState);
+  function EditTaskFunction(boardName, taskId, taskName) {
+    Object.keys(boards).forEach((board) => {
+      if (board === boardName) {
+        setBoards((prevState) => {
+          return {
+            ...boards,
+            [board]: prevState[board].map((task) => {
+              if (task.id === taskId) {
+                const newTask = task;
+                newTask.name = taskName;
+                return newTask;
+              }
+              return task;
+            }),
+          };
+        });
+      }
+    });
+  }
+
+  function RemoveTaskFunction(boardName, taskId) {
+    Object.keys(boards).forEach((board) => {
+      if (board === boardName) {
+        setBoards((prevState) => {
+          return {
+            ...boards,
+            [board]: prevState[board].filter((task) => {
+              return task.id !== taskId;
+            }),
+          };
+        });
+      }
+    });
+  }
+
+  function onChange(sourceId, sourceIndex, targetIndex, targetId) {
+    if (targetId) {
+      const result = move(
+        boards[sourceId],
+        boards[targetId],
+        sourceIndex,
+        targetIndex
+      );
+      return setBoards({
+        ...boards,
+        [sourceId]: result[0],
+        [targetId]: result[1],
+      });
+    }
+
+    const result = swap(boards[sourceId], sourceIndex, targetIndex);
+    return setBoards({
+      ...boards,
+      [sourceId]: result,
+    });
   }
 
   return (
@@ -53,43 +133,76 @@ function Home() {
       <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-normal text-gray-900 md:text-5xl md:tracking-tight">
         Boards
       </h1>
-      {boards.length === 0 && (
+      {Object.keys(boards).length === 0 && (
         <p className="mb-[15px] text-lg text-gray-600 md:text-xl md:mb-8">
           Looks like you don't have any boards yet!
         </p>
       )}
       <AddBoard addFunction={AddBoardFunction} />
       <hr className="mb-[35px]" />
-      <GridContextProvider onChange={onBoardChange}>
-        <GridDropZone
-          id="boards"
-          boxesPerRow={4}
-          rowHeight={450}
-          style={{ height: 450 * Math.ceil(boards.length / 4) }}
-        >
-          {boards.map((board) => (
-            <GridItem key={board.id}>
+      <div className="flex flex-wrap justify-around items-start gap-y-10">
+        <GridContextProvider onChange={onChange}>
+          {Object.keys(boards).map((board) => {
+            return (
               <Board
-                id={board.id}
-                name={board.name}
+                key={uuidv4()}
+                name={board}
                 editButton={
                   <EditBoard
-                    boardId={board.id}
+                    boardName={board}
                     editFunction={EditBoardFunction}
-                    previousBoardName={board.name}
+                    previousBoardName={board}
                   />
                 }
                 removeButton={
                   <RemoveBoard
-                    boardId={board.id}
+                    boardName={board}
                     removeFunction={RemoveBoardFunction}
                   />
                 }
-              />
-            </GridItem>
-          ))}
-        </GridDropZone>
-      </GridContextProvider>
+              >
+                <GridDropZone
+                  key={uuidv4()}
+                  id={board}
+                  boxesPerRow={1}
+                  rowHeight={65}
+                  style={{
+                    height:
+                      boards[board].length === 0
+                        ? 65 * Math.ceil(boards[board].length + 1) + 20
+                        : 65 * Math.ceil(boards[board].length) + 20,
+                  }}
+                >
+                  {boards[board].map((task) => (
+                    <GridItem key={task.id}>
+                      <Task
+                        name={task.name}
+                        editButton={
+                          <EditTask
+                            boardName={board}
+                            taskId={task.id}
+                            editFunction={EditTaskFunction}
+                            previousTaskName={task.name}
+                          />
+                        }
+                        removeButton={
+                          <RemoveTask
+                            boardName={board}
+                            taskId={task.id}
+                            removeFunction={RemoveTaskFunction}
+                          />
+                        }
+                      />
+                    </GridItem>
+                  ))}
+                </GridDropZone>
+
+                <AddTask boardName={board} addFunction={AddTaskFunction} />
+              </Board>
+            );
+          })}
+        </GridContextProvider>
+      </div>
     </section>
   );
 }

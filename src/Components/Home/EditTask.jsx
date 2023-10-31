@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function EditTask({ taskId, editFunction, previousTaskName }) {
+function EditTask({ boardName, taskId, editFunction, previousTaskName }) {
   const [taskName, setTaskName] = useState(previousTaskName);
 
   const [show, setShow] = useState(false);
@@ -34,7 +34,7 @@ function EditTask({ taskId, editFunction, previousTaskName }) {
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              editFunction(taskId, taskName);
+              editFunction(boardName, taskId, taskName);
               setTaskName("");
             }}
             autoComplete="off"

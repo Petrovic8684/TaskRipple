@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function RemoveBoard({ boardId, removeFunction }) {
+function RemoveBoard({ boardName, removeFunction }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -41,7 +41,7 @@ function RemoveBoard({ boardId, removeFunction }) {
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              removeFunction(boardId);
+              removeFunction(boardName);
             }}
             autoComplete="off"
             id="removeboard"

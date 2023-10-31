@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function EditBoard({ boardId, editFunction, previousBoardName }) {
-  const [boardName, setBoardName] = useState(previousBoardName);
+function EditBoard({ boardName, editFunction, previousBoardName }) {
+  const [currentBoardName, setCurrentBoardName] = useState(previousBoardName);
 
   const [show, setShow] = useState(false);
 
@@ -34,8 +34,8 @@ function EditBoard({ boardId, editFunction, previousBoardName }) {
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              editFunction(boardId, boardName);
-              setBoardName("");
+              editFunction(boardName, currentBoardName);
+              setCurrentBoardName("");
             }}
             autoComplete="off"
             id="editboard"
@@ -55,9 +55,9 @@ function EditBoard({ boardId, editFunction, previousBoardName }) {
                   className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-300"
                   id="inline-full-name"
                   type="text"
-                  value={boardName}
+                  value={currentBoardName}
                   onChange={(e) => {
-                    setBoardName(e.target.value);
+                    setCurrentBoardName(e.target.value);
                   }}
                   autoFocus
                   required

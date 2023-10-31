@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function RemoveTask({ taskId, removeFunction }) {
+function RemoveTask({ boardName, taskId, removeFunction }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -41,7 +41,7 @@ function RemoveTask({ taskId, removeFunction }) {
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              removeFunction(taskId);
+              removeFunction(boardName, taskId);
             }}
             autoComplete="off"
             id="removetask"
