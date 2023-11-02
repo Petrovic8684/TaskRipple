@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Board from "../Components/Home/Board";
 import AddBoard from "../Components/Home/AddBoard";
@@ -25,6 +25,17 @@ function Home() {
     "In Progress": [],
     Done: [],
   });
+
+  useEffect(() => {
+    document.body.classList.add("overscroll-none");
+    document.body.addEventListener(
+      "touchmove",
+      (e) => {
+        e.preventDefault();
+      },
+      { passive: false }
+    );
+  }, []);
 
   function AddBoardFunction(boardName) {
     setBoards({ ...boards, [boardName]: [] });

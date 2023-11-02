@@ -8,12 +8,6 @@ function Task({ name, editButton, removeButton }) {
       className="w-full max-h-[70px] min-h-[45px] py-2 justify-between items-center mb-[10px] px-3 bg-slate-200 rounded-lg flex flex-row"
       onMouseOver={() => setShowTaskButtons(true)}
       onMouseLeave={() => setShowTaskButtons(false)}
-      onMouseDown={() => {
-        document.body.classList.add("overflow-y-hidden");
-      }}
-      onMouseUp={() => {
-        document.body.classList.remove("overflow-y-hidden");
-      }}
     >
       <h4
         className="unselectable text-lg m-0 text-gray-700 break-words min-w-0"
