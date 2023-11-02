@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 function Task({ name, editButton, removeButton }) {
   const [showTaskButtons, setShowTaskButtons] = useState(false);
 
-  function handleScroll(e) {
+  const handleScroll = useCallback((e) => {
     if (e.cancelable) e.preventDefault();
-  }
+  });
 
   return (
     <div
