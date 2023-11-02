@@ -11,10 +11,24 @@ function Task({ name, editButton, removeButton }) {
       onTouchStart={() => {
         document.body.classList.add("overflow-y-hidden");
         document.body.classList.add("touch-none");
+        document.addEventListener(
+          "touchmove",
+          function (e) {
+            e.preventDefault();
+          },
+          { passive: false }
+        );
       }}
       onTouchEnd={() => {
         document.body.classList.remove("overflow-y-hidden");
         document.body.classList.remove("touch-none");
+        document.removeEventListener(
+          "touchmove",
+          function (e) {
+            e.preventDefault();
+          },
+          { passive: false }
+        );
       }}
     >
       <h4

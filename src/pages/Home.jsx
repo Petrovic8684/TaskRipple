@@ -26,16 +26,6 @@ function Home() {
     Done: [],
   });
 
-  useEffect(() => {
-    document.addEventListener(
-      "touchmove",
-      function (e) {
-        e.preventDefault();
-      },
-      { passive: false }
-    );
-  }, []);
-
   function AddBoardFunction(boardName) {
     setBoards({ ...boards, [boardName]: [] });
   }
