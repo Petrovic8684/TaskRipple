@@ -24,12 +24,6 @@ function Home() {
     "To Do": [],
     "In Progress": [],
     Done: [],
-    Rara: [],
-    Mara: [],
-    Kara: [],
-    rsadasd: [],
-    asdfkgj: [],
-    asdsajdhjwqe: [],
   });
 
   function AddBoardFunction(boardName) {
