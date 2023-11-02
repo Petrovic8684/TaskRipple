@@ -24,6 +24,12 @@ function Home() {
     "To Do": [],
     "In Progress": [],
     Done: [],
+    Rara: [],
+    Mara: [],
+    Kara: [],
+    rsadasd: [],
+    asdfkgj: [],
+    asdsajdhjwqe: [],
   });
 
   function AddBoardFunction(boardName) {
@@ -130,7 +136,7 @@ function Home() {
 
   return (
     <section className="px-[4%] py-[3%]">
-      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-normal text-gray-900 md:text-5xl md:tracking-tight">
+      <h1 className="mb-4 text-4xl leading-none tracking-normal text-gray-900 md:text-5xl md:tracking-tight">
         Boards
       </h1>
       {Object.keys(boards).length === 0 && (
@@ -169,8 +175,8 @@ function Home() {
                   style={{
                     height:
                       boards[board].length === 0
-                        ? 65 * Math.ceil(boards[board].length + 1) + 20
-                        : 65 * Math.ceil(boards[board].length) + 20,
+                        ? 65 * Math.ceil(boards[board].length + 1) + 45
+                        : 65 * Math.ceil(boards[board].length) + 45,
                   }}
                 >
                   {boards[board].map((task) => (
