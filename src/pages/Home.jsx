@@ -27,7 +27,13 @@ function Home() {
   });
 
   useEffect(() => {
-    document.height = window.innerHeight;
+    document.addEventListener(
+      "touchmove",
+      function (e) {
+        e.preventDefault();
+      },
+      { passive: false }
+    );
   }, []);
 
   function AddBoardFunction(boardName) {
