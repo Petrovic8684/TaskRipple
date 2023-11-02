@@ -26,17 +26,6 @@ function Home() {
     Done: [],
   });
 
-  useEffect(() => {
-    document.body.classList.add("overscroll-none");
-    document.body.addEventListener(
-      "touchmove",
-      (e) => {
-        e.preventDefault();
-      },
-      { passive: false }
-    );
-  }, []);
-
   function AddBoardFunction(boardName) {
     setBoards({ ...boards, [boardName]: [] });
   }
