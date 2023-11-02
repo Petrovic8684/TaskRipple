@@ -5,13 +5,10 @@ import Home from "./pages/Home";
 
 function App() {
   return (
-    <>
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/home" element={<Home />} />
+    </Routes>
   );
 }
 

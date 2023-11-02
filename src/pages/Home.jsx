@@ -26,6 +26,10 @@ function Home() {
     Done: [],
   });
 
+  useEffect(() => {
+    document.height = window.innerHeight;
+  }, []);
+
   function AddBoardFunction(boardName) {
     setBoards({ ...boards, [boardName]: [] });
   }

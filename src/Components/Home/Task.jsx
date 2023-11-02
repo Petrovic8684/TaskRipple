@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function Task({ name, editButton, removeButton }) {
   const [showTaskButtons, setShowTaskButtons] = useState(false);
@@ -11,10 +11,14 @@ function Task({ name, editButton, removeButton }) {
       onTouchStart={() => {
         document.body.classList.add("overflow-y-hidden");
         document.body.classList.add("touch-none");
+        document.body.scroll = "no";
+        document.body.style.overflow = "hidden";
       }}
       onTouchEnd={() => {
         document.body.classList.remove("overflow-y-hidden");
         document.body.classList.remove("touch-none");
+        document.body.scroll = "yes";
+        document.body.style.overflow = "auto";
       }}
     >
       <h4
