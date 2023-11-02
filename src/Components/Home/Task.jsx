@@ -3,6 +3,10 @@ import { useState } from "react";
 function Task({ name, editButton, removeButton }) {
   const [showTaskButtons, setShowTaskButtons] = useState(false);
 
+  function handleScroll(e) {
+    if (e.cancelable) e.preventDefault();
+  }
+
   return (
     <div
       className="task w-full max-h-[70px] min-h-[45px] py-2 justify-between items-center mb-[10px] px-3 bg-slate-200 rounded-lg flex flex-row"
@@ -11,24 +15,16 @@ function Task({ name, editButton, removeButton }) {
       onTouchStart={() => {
         document.body.classList.add("overflow-y-hidden");
         document.body.classList.add("touch-none");
-        document.addEventListener(
-          "touchmove",
-          function (e) {
-            e.preventDefault();
-          },
-          { passive: false }
-        );
+        document.addEventListener("touchmove", handleScroll, {
+          passive: false,
+        });
       }}
       onTouchEnd={() => {
         document.body.classList.remove("overflow-y-hidden");
         document.body.classList.remove("touch-none");
-        document.removeEventListener(
-          "touchmove",
-          function (e) {
-            e.preventDefault();
-          },
-          { passive: false }
-        );
+        document.removeEventListener("touchmove", handleScroll, {
+          passive: false,
+        });
       }}
     >
       <h4
