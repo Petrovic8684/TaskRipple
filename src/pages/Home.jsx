@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Board from "../Components/Home/Board";
 import AddBoard from "../Components/Home/AddBoard";
@@ -9,6 +9,8 @@ import Task from "../Components/Home/Task";
 import AddTask from "../Components/Home/AddTask";
 import EditTask from "../Components/Home/EditTask";
 import RemoveTask from "../Components/Home/RemoveTask";
+
+import ErrorModal from "../Components/Home/ErrorModal";
 
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -26,12 +28,42 @@ function Home() {
     Done: [],
   });
 
+  const [existsClash, setExistsClash] = useState(false);
+  const [disableDragEdit, setDisableDragEdit] = useState(false);
+  const [disableDragRemove, setDisableDragRemove] = useState(false);
+
   function AddBoardFunction(boardName) {
+    let clash = false;
+
+    Object.keys(boards).forEach((board) => {
+      if (board === boardName) {
+        setExistsClash(true);
+        clash = true;
+        return;
+      }
+    });
+
+    if (clash === true) return;
+
     setBoards({ ...boards, [boardName]: [] });
   }
 
   function EditBoardFunction(boardName, newName) {
+    if (boardName === newName) return;
+
     const keys = Object.keys(boards);
+    let clash = false;
+
+    keys.forEach((board) => {
+      if (board === newName) {
+        setExistsClash(true);
+        clash = true;
+        return;
+      }
+    });
+
+    if (clash === true) return;
+
     const newObj = keys.reduce((acc, val) => {
       if (val === boardName) {
         acc[newName] = boards[boardName];
@@ -130,7 +162,7 @@ function Home() {
 
   return (
     <section className="px-[4%] py-[3%]">
-      <h1 className="mb-4 text-4xl leading-none tracking-normal text-gray-900 md:text-5xl md:tracking-tight">
+      <h1 className="mb-4 text-4xl leading-none tracking-normal text-gray-700 md:text-5xl md:tracking-tight">
         Boards
       </h1>
       {Object.keys(boards).length === 0 && (
@@ -140,7 +172,7 @@ function Home() {
       )}
       <AddBoard addFunction={AddBoardFunction} />
       <hr className="mb-[35px]" />
-      <div className="flex flex-wrap justify-around items-start gap-y-10">
+      <div className="flex flex-wrap justify-center items-start gap-x-10 gap-y-10">
         <GridContextProvider onChange={onChange}>
           {Object.keys(boards).map((board) => {
             return (
@@ -162,6 +194,7 @@ function Home() {
                 }
               >
                 <GridDropZone
+                  disableDrag={disableDragEdit || disableDragRemove}
                   key={uuidv4()}
                   id={board}
                   boxesPerRow={1}
@@ -183,6 +216,8 @@ function Home() {
                             taskId={task.id}
                             editFunction={EditTaskFunction}
                             previousTaskName={task.name}
+                            disableDragEdit={disableDragEdit}
+                            setDisableDragEdit={setDisableDragEdit}
                           />
                         }
                         removeButton={
@@ -190,6 +225,8 @@ function Home() {
                             boardName={board}
                             taskId={task.id}
                             removeFunction={RemoveTaskFunction}
+                            disableDragRemove={disableDragRemove}
+                            setDisableDragRemove={setDisableDragRemove}
                           />
                         }
                       />
@@ -202,6 +239,12 @@ function Home() {
             );
           })}
         </GridContextProvider>
+        <ErrorModal
+          name="Error"
+          details="There already exists a board by that name!"
+          existsClash={existsClash}
+          setExistsClash={setExistsClash}
+        />
       </div>
     </section>
   );

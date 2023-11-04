@@ -1,18 +1,25 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function EditTask({ boardName, taskId, editFunction, previousTaskName }) {
+function EditTask({
+  boardName,
+  taskId,
+  editFunction,
+  previousTaskName,
+  disableDragEdit,
+  setDisableDragEdit,
+}) {
   const [taskName, setTaskName] = useState(previousTaskName);
 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setDisableDragEdit(false);
+  const handleShow = () => setDisableDragEdit(true);
 
   return (
     <>
       <button
-        onClick={handleShow}
+        onClick={() => {
+          handleShow();
+        }}
         className="h-[30px] px-[15px] text-2xl text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"
       >
         <svg fill="currentColor" viewBox="0 0 16 16" height="1em" width="1em">
@@ -21,7 +28,7 @@ function EditTask({ boardName, taskId, editFunction, previousTaskName }) {
       </button>
 
       <Modal
-        show={show}
+        show={disableDragEdit}
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
@@ -69,7 +76,9 @@ function EditTask({ boardName, taskId, editFunction, previousTaskName }) {
         </Modal.Body>
         <Modal.Footer>
           <button
-            onClick={handleClose}
+            onClick={() => {
+              handleClose();
+            }}
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
           >
             Close

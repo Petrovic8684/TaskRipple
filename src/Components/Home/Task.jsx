@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function Task({ name, editButton, removeButton }) {
   const [showTaskButtons, setShowTaskButtons] = useState(false);
@@ -34,7 +34,7 @@ function Task({ name, editButton, removeButton }) {
         {name}
       </h4>
       {showTaskButtons && (
-        <div className="text-right">
+        <div className="text-right unselectable" unselectable="on">
           {editButton} {removeButton}
         </div>
       )}

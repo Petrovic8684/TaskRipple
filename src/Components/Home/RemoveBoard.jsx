@@ -6,11 +6,12 @@ function RemoveBoard({ boardName, removeFunction }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   return (
     <>
       <button
-        onClick={handleShow}
+        onClick={() => {
+          handleShow();
+        }}
         className="h-[42px] px-[16px] text-2xl text-white bg-red-400 rounded-2xl md:text-4xl md:w-auto md:mb-0"
       >
         <svg
@@ -20,8 +21,8 @@ function RemoveBoard({ boardName, removeFunction }) {
           strokeLinejoin="round"
           strokeWidth={2}
           viewBox="0 0 24 24"
-          height="1em"
-          width="1em"
+          height="2rem"
+          width="2rem"
         >
           <path d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2zM18 9l-6 6M12 9l6 6" />
         </svg>
@@ -54,7 +55,9 @@ function RemoveBoard({ boardName, removeFunction }) {
         </Modal.Body>
         <Modal.Footer>
           <button
-            onClick={handleClose}
+            onClick={() => {
+              handleClose();
+            }}
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
           >
             No

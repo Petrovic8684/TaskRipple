@@ -18,8 +18,12 @@ function Board({ name, editButton, removeButton, children }) {
             {name}
           </h4>
           {showBoardButtons && (
-            <div className="text-right">
-              {editButton} {removeButton}
+            <div
+              className="text-right 
+             flex justify-between items-start w-fit"
+            >
+              <span className="mr-3">{editButton}</span>
+              {removeButton}
             </div>
           )}
         </div>
