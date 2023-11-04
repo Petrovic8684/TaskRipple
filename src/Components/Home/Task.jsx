@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 function Task({ name, editButton, removeButton }) {
   const [showTaskButtons, setShowTaskButtons] = useState(false);
@@ -7,21 +7,22 @@ function Task({ name, editButton, removeButton }) {
     if (e.cancelable) e.preventDefault();
   });
 
+  /*      onMouseOver={() => setShowTaskButtons(true)}
+      onMouseLeave={() => setShowTaskButtons(false)} 
+      
+      showTaskButtons*/
+
   return (
     <div
       className="task w-full max-h-[70px] min-h-[45px] py-2 justify-between items-center mb-[10px] px-3 bg-slate-200 rounded-lg flex flex-row"
-      onMouseOver={() => setShowTaskButtons(true)}
-      onMouseLeave={() => setShowTaskButtons(false)}
       onTouchStart={() => {
         document.body.classList.add("overflow-y-hidden");
-
         document.addEventListener("touchmove", handleScroll, {
           passive: false,
         });
       }}
       onTouchEnd={() => {
         document.body.classList.remove("overflow-y-hidden");
-
         document.removeEventListener("touchmove", handleScroll, {
           passive: false,
         });
@@ -33,7 +34,7 @@ function Task({ name, editButton, removeButton }) {
       >
         {name}
       </h4>
-      {showTaskButtons && (
+      {true && (
         <div className="text-right unselectable" unselectable="on">
           {editButton} {removeButton}
         </div>
