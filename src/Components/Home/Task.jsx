@@ -15,7 +15,6 @@ function Task({ name, editButton, removeButton }) {
       onTouchStart={() => {
         document.body.classList.add("overflow-y-hidden");
         document.body.classList.add("touch-none");
-        setShowTaskButtons(!showTaskButtons);
         document.addEventListener("touchmove", handleScroll, {
           passive: false,
         });

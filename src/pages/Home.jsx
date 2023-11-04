@@ -32,6 +32,12 @@ function Home() {
   const [disableDragEdit, setDisableDragEdit] = useState(false);
   const [disableDragRemove, setDisableDragRemove] = useState(false);
 
+  const [disableDrag, setDisableDrag] = useState();
+
+  useEffect(() => {
+    setDisableDrag(disableDragEdit || disableDragRemove);
+  }, [disableDragEdit, disableDragRemove]);
+
   function AddBoardFunction(boardName) {
     let clash = false;
 
@@ -194,7 +200,7 @@ function Home() {
                 }
               >
                 <GridDropZone
-                  disableDrag={disableDragEdit || disableDragRemove}
+                  disableDrag={disableDrag}
                   key={uuidv4()}
                   id={board}
                   boxesPerRow={1}
