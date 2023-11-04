@@ -14,14 +14,14 @@ function Task({ name, editButton, removeButton }) {
       onMouseLeave={() => setShowTaskButtons(false)}
       onTouchStart={() => {
         document.body.classList.add("overflow-y-hidden");
-        document.body.classList.add("touch-none");
+
         document.addEventListener("touchmove", handleScroll, {
           passive: false,
         });
       }}
       onTouchEnd={() => {
         document.body.classList.remove("overflow-y-hidden");
-        document.body.classList.remove("touch-none");
+
         document.removeEventListener("touchmove", handleScroll, {
           passive: false,
         });
