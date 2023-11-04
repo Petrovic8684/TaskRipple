@@ -15,7 +15,7 @@ function Task({ name, editButton, removeButton }) {
       onTouchStart={() => {
         document.body.classList.add("overflow-y-hidden");
         document.body.classList.add("touch-none");
-        setShowTaskButtons(true);
+        setShowTaskButtons(!showTaskButtons);
         document.addEventListener("touchmove", handleScroll, {
           passive: false,
         });
@@ -23,7 +23,6 @@ function Task({ name, editButton, removeButton }) {
       onTouchEnd={() => {
         document.body.classList.remove("overflow-y-hidden");
         document.body.classList.remove("touch-none");
-        setShowTaskButtons(false);
         document.removeEventListener("touchmove", handleScroll, {
           passive: false,
         });
