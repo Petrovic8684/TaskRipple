@@ -1,14 +1,12 @@
 import Modal from "react-bootstrap/Modal";
+import { useState } from "react";
 
-function RemoveTask({
-  boardName,
-  taskId,
-  removeFunction,
-  disableDragRemove,
-  setDisableDragRemove,
-}) {
-  const handleClose = () => setDisableDragRemove(false);
-  const handleShow = () => setDisableDragRemove(true);
+function RemoveTask({ boardName, taskId, taskName, removeFunction }) {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -33,7 +31,7 @@ function RemoveTask({
       </button>
 
       <Modal
-        show={disableDragRemove}
+        show={show}
         onHide={handleClose}
         backdrop="static"
         keyboard={false}

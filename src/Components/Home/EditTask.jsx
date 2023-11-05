@@ -1,18 +1,12 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function EditTask({
-  boardName,
-  taskId,
-  editFunction,
-  previousTaskName,
-  disableDragEdit,
-  setDisableDragEdit,
-}) {
+function EditTask({ boardName, taskId, editFunction, previousTaskName }) {
+  const [show, setShow] = useState(false);
   const [taskName, setTaskName] = useState(previousTaskName);
 
-  const handleClose = () => setDisableDragEdit(false);
-  const handleShow = () => setDisableDragEdit(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <>
@@ -28,8 +22,11 @@ function EditTask({
       </button>
 
       <Modal
-        show={disableDragEdit}
-        onHide={handleClose}
+        className="pointer-events-auto"
+        show={show}
+        onHide={() => {
+          handleClose();
+        }}
         backdrop="static"
         keyboard={false}
       >

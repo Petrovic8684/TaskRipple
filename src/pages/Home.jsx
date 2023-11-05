@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Board from "../Components/Home/Board";
 import AddBoard from "../Components/Home/AddBoard";
@@ -29,14 +29,6 @@ function Home() {
   });
 
   const [existsClash, setExistsClash] = useState(false);
-  const [disableDragEdit, setDisableDragEdit] = useState(false);
-  const [disableDragRemove, setDisableDragRemove] = useState(false);
-
-  const [disableDrag, setDisableDrag] = useState();
-
-  useEffect(() => {
-    setDisableDrag(disableDragEdit || disableDragRemove);
-  }, [disableDragEdit, disableDragRemove]);
 
   function AddBoardFunction(boardName) {
     let clash = false;
@@ -200,7 +192,6 @@ function Home() {
                 }
               >
                 <GridDropZone
-                  disableDrag={disableDrag}
                   key={uuidv4()}
                   id={board}
                   boxesPerRow={1}
@@ -222,17 +213,14 @@ function Home() {
                             taskId={task.id}
                             editFunction={EditTaskFunction}
                             previousTaskName={task.name}
-                            disableDragEdit={disableDragEdit}
-                            setDisableDragEdit={setDisableDragEdit}
                           />
                         }
                         removeButton={
                           <RemoveTask
                             boardName={board}
                             taskId={task.id}
+                            taskName={task.name}
                             removeFunction={RemoveTaskFunction}
-                            disableDragRemove={disableDragRemove}
-                            setDisableDragRemove={setDisableDragRemove}
                           />
                         }
                       />
