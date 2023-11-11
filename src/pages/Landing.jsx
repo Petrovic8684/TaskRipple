@@ -21,7 +21,7 @@ function Landing() {
   }, []);
 
   return (
-    <section className="h-screen flex items-center bg-white">
+    <section className="h-screen flex items-center bg-white overflow-hidden">
       <div className="px-12 mx-auto max-w-7xl">
         <div className="w-full mx-auto text-left md:w-11/12 xl:w-9/12 md:text-center">
           <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-gray-900 md:text-6xl md:tracking-tight">
@@ -54,7 +54,7 @@ function Landing() {
             </Link>
             <Link
               to="/"
-              className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-gray-400 rounded-2xl sm:w-auto sm:mb-0"
+              className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-blue bg-gray-200 rounded-2xl sm:w-auto sm:mb-0"
             >
               Learn More
               <svg

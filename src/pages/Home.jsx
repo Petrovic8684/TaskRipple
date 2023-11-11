@@ -94,10 +94,11 @@ function Home() {
     });
   }
 
-  function AddTaskFunction(boardName, taskName) {
+  function AddTaskFunction(boardName, taskName, taskDescription) {
     const newTask = {
       id: uuidv4(),
       name: taskName,
+      description: taskDescription,
     };
 
     Object.keys(boards).forEach((board) => {
@@ -112,7 +113,7 @@ function Home() {
     });
   }
 
-  function EditTaskFunction(boardName, taskId, taskName) {
+  function EditTaskFunction(boardName, taskId, taskName, taskDescription) {
     Object.keys(boards).forEach((board) => {
       if (board === boardName) {
         setBoards((prevState) => {
@@ -122,6 +123,7 @@ function Home() {
               if (task.id === taskId) {
                 const newTask = task;
                 newTask.name = taskName;
+                newTask.description = taskDescription;
                 return newTask;
               }
               return task;
@@ -170,18 +172,18 @@ function Home() {
   }
 
   return (
-    <section className="px-[4%] py-[3%]">
-      <h1 className="mb-4 text-4xl leading-none tracking-normal text-gray-700 md:text-5xl md:tracking-tight">
+    <section className="px-[12%] py-[3%]">
+      <h1 className="my-4 text-4xl leading-none tracking-normal text-gray-700 text-center md:text-5xl md:tracking-tight">
         Boards
       </h1>
       {Object.keys(boards).length === 0 && (
-        <p className="mb-[15px] text-lg text-gray-600 md:text-xl md:mb-8">
+        <p className="mb-[15px] text-lg text-gray-600 text-center md:text-xl md:mb-8">
           Looks like you don't have any boards yet!
         </p>
       )}
       <AddBoard addFunction={AddBoardFunction} />
       <hr className="mb-[35px]" />
-      <div className="flex flex-wrap justify-center items-start gap-x-10 gap-y-10">
+      <div className="flex flex-wrap gap-4 justify-evenly items-center mb-[10%]">
         <GridContextProvider onChange={onChange}>
           {Object.keys(boards).map((board) => {
             return (
@@ -218,12 +220,17 @@ function Home() {
                     <GridItem key={task.id}>
                       <Task
                         name={task.name}
+                        description={task.description}
                         editButton={
                           <button
                             onClick={() => {
                               handleEditShow();
                               setCurrentBoardName(board);
-                              setCurrentTask({ id: task.id, name: task.name });
+                              setCurrentTask({
+                                id: task.id,
+                                name: task.name,
+                                description: task.description,
+                              });
                             }}
                             className="h-[30px] px-[15px] text-2xl text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"
                           >
@@ -242,7 +249,11 @@ function Home() {
                             onClick={() => {
                               handleRemoveShow();
                               setCurrentBoardName(board);
-                              setCurrentTask({ id: task.id, name: task.name });
+                              setCurrentTask({
+                                id: task.id,
+                                name: task.name,
+                                description: task.description,
+                              });
                             }}
                             className="h-[30px] px-[15px] text-2xl text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
                           >

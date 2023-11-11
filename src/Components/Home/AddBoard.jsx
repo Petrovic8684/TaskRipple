@@ -13,9 +13,14 @@ function AddBoard({ addFunction }) {
     <>
       <button
         onClick={handleShow}
-        className="h-[50px] px-[17px] mb-2 text-2xl text-white bg-green-400 rounded-2xl md:text-4xl md:w-auto md:mb-0 md:h-[70px] md:px-[23px]"
+        className="h-[70px] w-[70px] text-2xl text-white bg-green-400 flex justify-center items-center rounded-full fixed bottom-10 right-10 md:text-4xl md:bottom-20 md:right-20"
       >
-        <svg viewBox="0 0 512 512" fill="currentColor" height="1em" width="1em">
+        <svg
+          viewBox="0 0 512 512"
+          fill="currentColor"
+          height="2.5rem"
+          width="2.5rem"
+        >
           <path
             fill="none"
             stroke="currentColor"

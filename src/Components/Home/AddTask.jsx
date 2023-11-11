@@ -3,6 +3,7 @@ import Modal from "react-bootstrap/Modal";
 
 function AddTask({ boardName, addFunction }) {
   const [taskName, setTaskName] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -13,9 +14,14 @@ function AddTask({ boardName, addFunction }) {
     <>
       <button
         onClick={handleShow}
-        className="flex justify-center items-center w-[40px] h-[35px] mb-2 text-xl text-white bg-green-400 rounded-2xl md:text-3xl md:w-[42px] md:mb-0 md:w-[51px] md:h-[45px]"
+        className="flex justify-center items-center w-[45px] h-[45px] text-xl text-white bg-green-400 rounded-full md:text-3xl"
       >
-        <svg viewBox="0 0 512 512" fill="currentColor" height="1em" width="1em">
+        <svg
+          viewBox="0 0 512 512"
+          fill="currentColor"
+          height="1.8rem"
+          width="1.8rem"
+        >
           <path
             fill="none"
             stroke="currentColor"
@@ -41,8 +47,9 @@ function AddTask({ boardName, addFunction }) {
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              addFunction(boardName, taskName);
+              addFunction(boardName, taskName, taskDescription);
               setTaskName("");
+              setTaskDescription("");
             }}
             autoComplete="off"
             id="addtask"
@@ -69,6 +76,29 @@ function AddTask({ boardName, addFunction }) {
                   autoFocus
                   required
                   maxLength={29}
+                />
+              </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+              <div className="md:w-1/3">
+                <label
+                  className="block md:relative md:-top-9 text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  htmlFor="inline-full-description"
+                >
+                  Description:
+                </label>
+              </div>
+              <div className="md:w-2/3">
+                <textarea
+                  className="resize-none bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-300"
+                  id="inline-full-description"
+                  type="text"
+                  value={taskDescription}
+                  onChange={(e) => {
+                    setTaskDescription(e.target.value);
+                  }}
+                  rows={4}
+                  maxLength={1000}
                 />
               </div>
             </div>

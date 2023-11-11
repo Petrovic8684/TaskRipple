@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 
 function EditBoard({ boardName, editFunction, previousBoardName }) {
-  const [currentBoardName, setCurrentBoardName] = useState(previousBoardName);
+  const [currentBoardName, setCurrentBoardName] = useState("");
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    if (show === true) {
+      setCurrentBoardName(previousBoardName);
+    }
+  }, [show]);
 
   return (
     <>
