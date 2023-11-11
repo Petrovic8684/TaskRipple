@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
-function EditTask({ boardName, taskId, editFunction, show, handleClose }) {
+function EditTask({ boardName, task, editFunction, show, handleClose }) {
   const [taskName, setTaskName] = useState("");
+
+  useEffect(() => {
+    if (show === true) {
+      setTaskName(task.name);
+    }
+  }, [show]);
 
   return (
     <>
@@ -23,7 +29,7 @@ function EditTask({ boardName, taskId, editFunction, show, handleClose }) {
             onSubmit={(e) => {
               e.preventDefault();
               handleClose();
-              editFunction(boardName, taskId, taskName);
+              editFunction(boardName, task.id, taskName);
               setTaskName("");
             }}
             autoComplete="off"

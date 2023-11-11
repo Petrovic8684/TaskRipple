@@ -28,7 +28,7 @@ function Home() {
     Done: [],
   });
 
-  const [currentTaskId, setCurrentTaskId] = useState();
+  const [currentTask, setCurrentTask] = useState({});
   const [currentBoardName, setCurrentBoardName] = useState();
 
   const [showEdit, setShowEdit] = useState(false);
@@ -223,7 +223,7 @@ function Home() {
                             onClick={() => {
                               handleEditShow();
                               setCurrentBoardName(board);
-                              setCurrentTaskId(task.id);
+                              setCurrentTask({ id: task.id, name: task.name });
                             }}
                             className="h-[30px] px-[15px] text-2xl text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"
                           >
@@ -242,7 +242,7 @@ function Home() {
                             onClick={() => {
                               handleRemoveShow();
                               setCurrentBoardName(board);
-                              setCurrentTaskId(task.id);
+                              setCurrentTask({ id: task.id, name: task.name });
                             }}
                             className="h-[30px] px-[15px] text-2xl text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
                           >
@@ -272,14 +272,14 @@ function Home() {
         </GridContextProvider>
         <EditTask
           boardName={currentBoardName}
-          taskId={currentTaskId}
+          task={currentTask}
           editFunction={EditTaskFunction}
           show={showEdit}
           handleClose={handleEditClose}
         />
         <RemoveTask
           boardName={currentBoardName}
-          taskId={currentTaskId}
+          task={currentTask}
           removeFunction={RemoveTaskFunction}
           show={showRemove}
           handleClose={handleRemoveClose}
