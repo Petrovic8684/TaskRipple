@@ -16,8 +16,6 @@ function RemoveTask({ boardName, task, removeFunction, show, handleClose }) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleClose();
-              removeFunction(boardName, task.id);
             }}
             autoComplete="off"
             id="removetask"
@@ -38,6 +36,10 @@ function RemoveTask({ boardName, task, removeFunction, show, handleClose }) {
             No
           </button>
           <button
+            onClick={() => {
+              handleClose();
+              removeFunction(boardName, task.id);
+            }}
             form="removetask"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
           >

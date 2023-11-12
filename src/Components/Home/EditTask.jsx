@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 
 function EditTask({ boardName, task, editFunction, show, handleClose }) {
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
+  const [taskStartDate, setTaskStartDate] = useState("");
+  const [taskEndDate, setTaskEndDate] = useState("");
 
   useEffect(() => {
     if (show === true) {
       setTaskName(task.name);
       setTaskDescription(task.description);
+      setTaskStartDate(task.startdate);
+      setTaskEndDate(task.enddate);
     }
   }, [show]);
 
@@ -30,10 +35,6 @@ function EditTask({ boardName, task, editFunction, show, handleClose }) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleClose();
-              editFunction(boardName, task.id, taskName, taskDescription);
-              setTaskName("");
-              setTaskDescription("");
             }}
             autoComplete="off"
             id="edittask"
@@ -86,6 +87,46 @@ function EditTask({ boardName, task, editFunction, show, handleClose }) {
                 />
               </div>
             </div>
+            <div className="md:flex md:items-center mb-6">
+              <div className="md:w-1/3">
+                <label
+                  className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  htmlFor="inline-full-startdate"
+                >
+                  Start date:
+                </label>
+              </div>
+              <div className="md:w-2/3">
+                <Form.Control
+                  id="inline-full-startdate"
+                  type="date"
+                  name="datepicstart"
+                  placeholder="DateRange"
+                  value={taskStartDate}
+                  onChange={(e) => setTaskStartDate(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="md:flex md:items-center mb-6">
+              <div className="md:w-1/3">
+                <label
+                  className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  htmlFor="inline-full-enddate"
+                >
+                  End date:
+                </label>
+              </div>
+              <div className="md:w-2/3">
+                <Form.Control
+                  id="inline-full-enddate"
+                  type="date"
+                  name="datepicend"
+                  placeholder="DateRange"
+                  value={taskEndDate}
+                  onChange={(e) => setTaskEndDate(e.target.value)}
+                />
+              </div>
+            </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
@@ -98,6 +139,21 @@ function EditTask({ boardName, task, editFunction, show, handleClose }) {
             Close
           </button>
           <button
+            onClick={() => {
+              handleClose();
+              editFunction(
+                boardName,
+                task.id,
+                taskName,
+                taskDescription,
+                taskStartDate,
+                taskEndDate
+              );
+              setTaskName("");
+              setTaskDescription("");
+              setTaskStartDate(new Date());
+              setTaskEndDate(new Date());
+            }}
             form="edittask"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"
           >

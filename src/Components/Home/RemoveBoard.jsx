@@ -6,15 +6,8 @@ function RemoveBoard({ boardName, removeFunction }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  return (
-    <>
-      <button
-        onClick={() => {
-          handleShow();
-        }}
-        className="h-[42px] px-[16px] text-2xl text-white bg-red-400 rounded-2xl md:text-4xl md:w-auto md:mb-0"
-      >
-        <svg
+
+  /*<svg
           fill="none"
           stroke="currentColor"
           strokeLinecap="round"
@@ -25,8 +18,17 @@ function RemoveBoard({ boardName, removeFunction }) {
           width="2rem"
         >
           <path d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2zM18 9l-6 6M12 9l6 6" />
-        </svg>
-      </button>
+        </svg> className="h-[42px] px-[16px] text-2xl text-white bg-red-400 rounded-2xl md:text-4xl md:w-auto md:mb-0"*/
+
+  return (
+    <>
+      <div
+        onClick={() => {
+          handleShow();
+        }}
+      >
+        Remove
+      </div>
 
       <Modal
         show={show}
@@ -41,8 +43,6 @@ function RemoveBoard({ boardName, removeFunction }) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleClose();
-              removeFunction(boardName);
             }}
             autoComplete="off"
             id="removeboard"
@@ -63,6 +63,10 @@ function RemoveBoard({ boardName, removeFunction }) {
             No
           </button>
           <button
+            onClick={() => {
+              handleClose();
+              removeFunction(boardName);
+            }}
             form="removeboard"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
           >

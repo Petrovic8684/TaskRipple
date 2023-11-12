@@ -21,7 +21,7 @@ function Landing() {
   }, []);
 
   return (
-    <section className="h-screen flex items-center bg-white overflow-hidden">
+    <section className="h-[100vh] flex items-center bg-white overflow-hidden">
       <div className="px-12 mx-auto max-w-7xl">
         <div className="w-full mx-auto text-left md:w-11/12 xl:w-9/12 md:text-center">
           <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-gray-900 md:text-6xl md:tracking-tight">

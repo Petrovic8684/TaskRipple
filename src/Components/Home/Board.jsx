@@ -1,4 +1,33 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
+
+const CustomToggle = forwardRef(({ children, onClick }, ref) => (
+  <a
+    href=""
+    ref={ref}
+    onClick={(e) => {
+      e.preventDefault();
+      onClick(e);
+    }}
+  >
+    {children}
+  </a>
+));
+
+const CustomMenu = forwardRef(
+  ({ children, style, className, "aria-labelledby": labeledBy }, ref) => {
+    return (
+      <div
+        ref={ref}
+        style={style}
+        className={className}
+        aria-labelledby={labeledBy}
+      >
+        {children}
+      </div>
+    );
+  }
+);
 
 function Board({ name, editButton, removeButton, children }) {
   const [showBoardButtons, setShowBoardButtons] = useState(false);
@@ -18,12 +47,27 @@ function Board({ name, editButton, removeButton, children }) {
             {name}
           </h4>
           {showBoardButtons && (
-            <div
-              className="text-right 
-             flex justify-between items-start w-fit"
-            >
-              <span className="mr-3">{editButton}</span>
-              {removeButton}
+            <div>
+              <Dropdown>
+                <Dropdown.Toggle
+                  as={CustomToggle}
+                  id="dropdown-custom-components"
+                >
+                  <svg
+                    className="w-10 h-10 text-gray-800 dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="gray"
+                    viewBox="0 0 16 3"
+                  >
+                    <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                  </svg>
+                </Dropdown.Toggle>
+                <Dropdown.Menu as={CustomMenu}>
+                  <Dropdown.Item>{editButton}</Dropdown.Item>
+                  <Dropdown.Item>{removeButton}</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           )}
         </div>
@@ -34,3 +78,8 @@ function Board({ name, editButton, removeButton, children }) {
 }
 
 export default Board;
+
+/**              <span className="mr-3">{editButton}</span>
+              {removeButton} */
+
+/*              */
