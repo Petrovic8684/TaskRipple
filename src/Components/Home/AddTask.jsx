@@ -17,7 +17,7 @@ function AddTask({ boardName, addFunction }) {
     <>
       <button
         onClick={handleShow}
-        className="flex justify-center items-center w-[45px] h-[45px] text-xl text-white bg-green-400 rounded-full md:text-3xl z-[9999999]"
+        className="flex justify-center items-center w-[45px] h-[45px] text-xl text-white bg-green-400 rounded-full md:text-3xl"
       >
         <svg
           viewBox="0 0 512 512"
