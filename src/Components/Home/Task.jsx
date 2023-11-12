@@ -38,7 +38,7 @@ function Task({ name, detailsButton, editButton, removeButton }) {
 
   return (
     <div
-      className="w-full max-h-[70px] min-h-[45px] py-2 justify-between items-center mb-[10px] px-3 bg-slate-200 rounded-lg flex flex-row"
+      className="task w-full max-h-[70px] min-h-[45px] py-2 justify-between items-center mb-[10px] px-3 bg-slate-200 rounded-lg flex flex-row -z-[99999999999]"
       onMouseOver={() => {
         setShowTaskButtons(true);
       }}
