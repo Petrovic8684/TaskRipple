@@ -13,7 +13,7 @@ function AddBoard({ addFunction }) {
     <>
       <button
         onClick={handleShow}
-        className="h-[70px] w-[70px] text-2xl text-white bg-green-400 flex justify-center items-center rounded-full fixed bottom-10 right-10 md:text-4xl md:bottom-20 md:right-20"
+        className="h-[70px] w-[70px] text-2xl text-white bg-blue-400 flex justify-center items-center rounded-full fixed bottom-10 right-10 md:text-4xl md:bottom-20 md:right-20"
       >
         <svg
           viewBox="0 0 512 512"
@@ -64,7 +64,7 @@ function AddBoard({ addFunction }) {
               </div>
               <div className="md:w-2/3">
                 <input
-                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-400"
+                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-400"
                   id="inline-full-name"
                   type="text"
                   value={boardName}
@@ -88,7 +88,7 @@ function AddBoard({ addFunction }) {
           </button>
           <button
             form="addboard"
-            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-green-400 rounded-2xl md:w-auto md:mb-0"
+            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-blue-400 rounded-2xl md:w-auto md:mb-0"
           >
             Create
           </button>

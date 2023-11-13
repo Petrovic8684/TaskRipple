@@ -25,7 +25,7 @@ function Landing() {
       <div className="px-12 mx-auto max-w-7xl">
         <div className="w-full mx-auto text-left md:w-11/12 xl:w-9/12 md:text-center">
           <h1 className="mb-8 text-4xl font-extrabold leading-none tracking-normal text-gray-900 md:text-6xl md:tracking-tight">
-            <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-green-400 to-purple-500 lg:inline">
+            <span className="block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-blue-400 to-pink-500 lg:inline">
               TaskRipple
             </span>{" "}
             <span>is a simple way to manage your tasks.</span>
@@ -36,7 +36,7 @@ function Landing() {
           <div className="mb-4 space-x-0 md:space-x-2 md:mb-8">
             <Link
               to="/home"
-              className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-green-400 rounded-2xl sm:w-auto sm:mb-0"
+              className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-blue-400 rounded-2xl sm:w-auto sm:mb-0"
             >
               Get Started
               <svg

@@ -17,7 +17,7 @@ function AddTask({ boardName, addFunction }) {
     <>
       <button
         onClick={handleShow}
-        className="flex justify-center items-center w-[45px] h-[45px] text-xl text-white bg-green-400 rounded-full md:text-3xl"
+        className="flex justify-center items-center w-[45px] h-[45px] text-xl text-white bg-blue-400 rounded-full md:text-3xl"
       >
         <svg
           viewBox="0 0 512 512"
@@ -77,7 +77,7 @@ function AddTask({ boardName, addFunction }) {
               </div>
               <div className="md:w-2/3">
                 <input
-                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-400"
+                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-400"
                   id="inline-full-name"
                   type="text"
                   value={taskName}
@@ -101,7 +101,7 @@ function AddTask({ boardName, addFunction }) {
               </div>
               <div className="md:w-2/3">
                 <textarea
-                  className="resize-none bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-green-300"
+                  className="resize-none bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-300"
                   id="inline-full-description"
                   type="text"
                   value={taskDescription}
@@ -164,7 +164,7 @@ function AddTask({ boardName, addFunction }) {
           </button>
           <button
             form="addtask"
-            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-green-400 rounded-2xl md:w-auto md:mb-0"
+            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-blue-400 rounded-2xl md:w-auto md:mb-0"
           >
             Create
           </button>
