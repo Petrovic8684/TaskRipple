@@ -30,7 +30,7 @@ const verifyToken = (req, res, next) => {
 };
 
 app.get("/api", (req, res) => {
-  res.send("bobbyhadz.com");
+  res.send("Welcome!");
 });
 
 app.post("/api/register", async (req, res) => {
