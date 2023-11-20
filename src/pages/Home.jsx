@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import Board from "../Components/Home/Board";
 import AddBoard from "../Components/Home/AddBoard";
@@ -22,12 +24,68 @@ import {
   move,
 } from "react-grid-dnd";
 
+import axios from "axios";
+
 function Home() {
-  const [boards, setBoards] = useState({
-    "To Do": [],
-    "In Progress": [],
-    Done: [],
-  });
+  const [boards, setBoards] = useState({});
+  const [cookies, _] = useCookies(["access_token"]);
+
+  const FetchBoards = async () => {
+    try {
+      const response = await axios.get(
+        "https://task-ripple-backend.vercel.app:3001/home",
+        {
+          params: {
+            userID: window.localStorage.getItem("userID"),
+          },
+          headers: { authorization: cookies.access_token },
+        }
+      );
+      if (response.data.message === "Could not find user by that id!") {
+        console.log("Could not find user by that id!");
+        return;
+      }
+
+      setBoards(JSON.parse(response.data));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const UpdateBoards = async () => {
+    try {
+      const response = await axios.put(
+        "https://task-ripple-backend.vercel.app:3001/home",
+        {
+          userID: window.localStorage.getItem("userID"),
+          boards: JSON.stringify(boards),
+        }
+      );
+
+      if (response.data.message === "User does not exist!") {
+        console.log("User does not exist!");
+        return;
+      }
+
+      if (response.data.message === "Records up to date!") {
+        console.log("Records up to date!");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const [isLoad, setIsLoad] = useState(true);
+
+  useEffect(() => {
+    if (isLoad) {
+      FetchBoards();
+      setIsLoad(false);
+      return;
+    } else {
+      UpdateBoards();
+    }
+  }, [boards]);
 
   const [currentTask, setCurrentTask] = useState({});
   const [currentBoardName, setCurrentBoardName] = useState();
@@ -192,11 +250,30 @@ function Home() {
     });
   }
 
-  return (
+  return cookies.access_token === "" ? (
+    <></>
+  ) : (
     <section className="px-[3%] py-[3%] md:px-[12%]">
-      <h1 className="my-4 text-4xl leading-none tracking-normal text-gray-700 text-center md:text-5xl md:tracking-tight">
-        Boards
-      </h1>
+      <div className="flex flex-column justify-center items-center">
+        <h1 className=" text-4xl text-gray-700 text-center md:text-5xl">
+          {window.localStorage.getItem("username")}'s boards
+        </h1>
+        <Link to="/" className="mb-3">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            viewBox="0 0 24 22"
+            className="w-10 h-10"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <path d="M14 8V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h7a2 2 0 002-2v-2" />
+            <path d="M7 12h14l-3-3m0 6l3-3" />
+          </svg>
+        </Link>
+      </div>
       {Object.keys(boards).length === 0 && (
         <p className="mb-[15px] text-lg text-gray-600 text-center md:text-xl md:mb-8">
           Looks like you don't have any boards yet!
@@ -333,27 +410,3 @@ function Home() {
 }
 
 export default Home;
-
-/*<svg
-                              fill="currentColor"
-                              viewBox="0 0 16 16"
-                              height="1em"
-                              width="1em"
-                            >
-                              <path d="M13.498.795l.149-.149a1.207 1.207 0 111.707 1.708l-.149.148a1.5 1.5 0 01-.059 2.059L4.854 14.854a.5.5 0 01-.233.131l-4 1a.5.5 0 01-.606-.606l1-4a.5.5 0 01.131-.232l9.642-9.642a.5.5 0 00-.642.056L6.854 4.854a.5.5 0 11-.708-.708L9.44.854A1.5 1.5 0 0111.5.796a1.5 1.5 0 011.998-.001zm-.644.766a.5.5 0 00-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 000-.708l-1.585-1.585z" />
-                            </svg>
-                            className="h-[30px] px-[15px] text-2xl text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"*/
-
-/*<svg
-                              fill="none"
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              viewBox="0 0 24 24"
-                              height="1em"
-                              width="1em"
-                            >
-                              <path d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2zM18 9l-6 6M12 9l6 6" />
-                            </svg>
-                            className="h-[30px] px-[15px] text-2xl text-white bg-red-400 rounded-2xl md:w-auto md:mb-0" */

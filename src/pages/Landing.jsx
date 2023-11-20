@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Landing() {
   const [quote, setQuote] = useState({});
+  const [cookies, setCookies] = useCookies(["access_token"]);
 
   useEffect(() => {
     async function getQuote() {
@@ -20,6 +22,12 @@ function Landing() {
     getQuote();
   }, []);
 
+  const logout = () => {
+    setCookies("access_token", "");
+    window.localStorage.removeItem("userID");
+    window.localStorage.removeItem("username");
+  };
+
   return (
     <section className="h-[100vh] flex items-center bg-white overflow-hidden">
       <div className="px-12 mx-auto max-w-7xl">
@@ -33,25 +41,69 @@ function Landing() {
           <p className="mb-8 text-lg text-gray-600 md:text-xl lg:px-24">
             {quote.content} <br /> -{quote.author}
           </p>
-          <div className="mb-4 space-x-0 md:space-x-2 md:mb-8">
-            <Link
-              to="/home"
-              className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-blue-400 rounded-2xl sm:w-auto sm:mb-0"
-            >
-              Get Started
-              <svg
-                className="w-4 h-4 ml-1"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+          <div className="mb-4 space-x-0 sm:space-x-2 sm:mb-8">
+            {!cookies.access_token ? (
+              <Link
+                to="/login"
+                className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-blue-400 rounded-2xl sm:w-auto sm:mb-0"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </Link>
+                Get Started
+                <svg
+                  className="w-4 h-4 ml-1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </Link>
+            ) : (
+              <Link
+                to="/home"
+                className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-blue-400 rounded-2xl sm:w-auto sm:mb-0"
+              >
+                Boards
+                <svg
+                  className="w-4 h-4 ml-1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </Link>
+            )}
+            {!cookies.access_token ? (
+              <></>
+            ) : (
+              <button
+                onClick={logout}
+                className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-blue-400 rounded-2xl sm:w-auto sm:mb-0"
+              >
+                Logout
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  className="w-4 h-4 ml-1"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" />
+                  <path d="M14 8V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h7a2 2 0 002-2v-2" />
+                  <path d="M7 12h14l-3-3m0 6l3-3" />
+                </svg>
+              </button>
+            )}
             <Link
               to="/"
               className="no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-blue bg-gray-200 rounded-2xl sm:w-auto sm:mb-0"

@@ -78,8 +78,3 @@ function Board({ name, editButton, removeButton, children }) {
 }
 
 export default Board;
-
-/**              <span className="mr-3">{editButton}</span>
-              {removeButton} */
-
-/*              */
