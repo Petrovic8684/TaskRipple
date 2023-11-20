@@ -42,7 +42,7 @@ app.post("/register", async (req, res) => {
   }
 
   const newUser = new UserModel({
-    username,
+    username: username,
     password: password,
     boards: "{}",
   });
