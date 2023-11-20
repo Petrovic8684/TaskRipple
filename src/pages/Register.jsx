@@ -13,7 +13,7 @@ function Register() {
 
     try {
       const response = await axios.post(
-        "https://task-ripple-backend.vercel.app:3001/api/register",
+        "https://task-ripple-backend.vercel.app:3001/register",
         {
           username,
           password,

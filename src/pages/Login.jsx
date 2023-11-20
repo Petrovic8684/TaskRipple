@@ -14,7 +14,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://task-ripple-backend.vercel.app:3001/api/login",
+        "https://task-ripple-backend.vercel.app:3001/login",
         {
           username,
           password,
