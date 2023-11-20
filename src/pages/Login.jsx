@@ -21,6 +21,8 @@ function Login() {
         }
       );
 
+      console.log(response);
+
       if (response.data.message === "User does not exist!") {
         alert("User does not exist!");
         return;
