@@ -40,24 +40,12 @@ app.post("/register", async (req, res) => {
     return res.json({ message: "User already exists!" });
   }
 
-  const hashedPassword = "";
-
-  bcrypt.genSalt(10, function (err, salt) {
-    if (err) {
-      return console.log(err);
-    }
-    bcrypt.hash(password, salt, function (err, hash) {
-      if (err) {
-        return console.log(err);
-      }
-
-      hashedPassword = hash;
-    });
-  });
+  var salt = bcrypt.genSaltSync(10);
+  var hash = bcrypt.hashSync(password, salt);
 
   const newUser = new UserModel({
     username,
-    password: hashedPassword,
+    password: hash,
     boards: "{}",
   });
 
@@ -74,16 +62,7 @@ app.post("/login", async (req, res) => {
     return res.json({ message: "User does not exist!" });
   }
 
-  const isPasswordValid = false;
-
-  bcrypt.compare(password, user.password, async function (err, isMatch) {
-    if (err) {
-      return console.log(err);
-    }
-    if (isMatch) {
-      isPasswordValid = true;
-    }
-  });
+  const isPasswordValid = bcrypt.compareSync(password, user.password);
 
   if (!isPasswordValid) {
     return res.json({ message: "Username or password is incorrect!" });
