@@ -29,7 +29,11 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-app.post("/api/register", async (req, res) => {
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome!" });
+});
+
+app.post("/register", async (req, res) => {
   const { username, password } = req.body;
   const user = await UserModel.findOne({ username });
 
@@ -59,7 +63,7 @@ app.post("/api/register", async (req, res) => {
   res.json({ message: "User registered successfully!" });
 });
 
-app.post("/api/login", async (req, res) => {
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await UserModel.findOne({ username });
 
@@ -86,7 +90,7 @@ app.post("/api/login", async (req, res) => {
   res.json({ token, userID: user._id });
 });
 
-app.put("/api/home", async (req, res) => {
+app.put("/home", async (req, res) => {
   try {
     const user = await UserModel.findOne({ _id: req.body.userID });
 
@@ -112,7 +116,7 @@ app.put("/api/home", async (req, res) => {
   }
 });
 
-app.get("/api/home", verifyToken, async (req, res) => {
+app.get("/home", verifyToken, async (req, res) => {
   try {
     const user = await UserModel.findOne({ _id: req.query.userID });
     if (!user) {
