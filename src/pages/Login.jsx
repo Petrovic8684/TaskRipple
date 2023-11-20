@@ -14,14 +14,12 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://task-ripple-backend.vercel.app/login",
+        "https://taskripple-api.onrender.com/login",
         {
           username,
           password,
         }
       );
-
-      console.log(response);
 
       if (response.data.message === "User does not exist!") {
         alert("User does not exist!");
