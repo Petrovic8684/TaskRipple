@@ -10,14 +10,6 @@ const app = express();
 
 app.use(express.json());
 
-const corsOptions = {
-  origin: "*",
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
-
 dotenv.config();
 
 mongoose.connect(
@@ -48,6 +40,8 @@ app.post("/register", async (req, res) => {
     return res.json({ message: "User already exists!" });
   }
 
+  const hashedPassword = "";
+
   bcrypt.genSalt(10, function (err, salt) {
     if (err) {
       return console.log(err);
@@ -57,15 +51,17 @@ app.post("/register", async (req, res) => {
         return console.log(err);
       }
 
-      const newUser = new UserModel({
-        username,
-        password: hash,
-        boards: "{}",
-      });
-
-      newUser.save();
+      hashedPassword = hash;
     });
   });
+
+  const newUser = new UserModel({
+    username,
+    password: hashedPassword,
+    boards: "{}",
+  });
+
+  await newUser.save();
 
   res.json({ message: "User registered successfully!" });
 });
