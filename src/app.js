@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import { UserModel } from "../models/Users.js";
 
@@ -37,13 +37,24 @@ app.post("/api/register", async (req, res) => {
     return res.json({ message: "User already exists!" });
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = new UserModel({
-    username,
-    password: hashedPassword,
-    boards: "{}",
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) {
+      return console.log(err);
+    }
+    bcrypt.hash(password, salt, function (err, hash) {
+      if (err) {
+        return console.log(err);
+      }
+
+      const newUser = new UserModel({
+        username,
+        password: hash,
+        boards: "{}",
+      });
+
+      newUser.save();
+    });
   });
-  await newUser.save();
 
   res.json({ message: "User registered successfully!" });
 });
@@ -56,7 +67,16 @@ app.post("/api/login", async (req, res) => {
     return res.json({ message: "User does not exist!" });
   }
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
+  const isPasswordValid = false;
+
+  bcrypt.compare(password, user.password, async function (err, isMatch) {
+    if (err) {
+      return console.log(err);
+    }
+    if (isMatch) {
+      isPasswordValid = true;
+    }
+  });
 
   if (!isPasswordValid) {
     return res.json({ message: "Username or password is incorrect!" });
