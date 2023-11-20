@@ -33,7 +33,7 @@ function Home() {
   const FetchBoards = async () => {
     try {
       const response = await axios.get(
-        "https://task-ripple-backend.vercel.app:3001/home",
+        "https://task-ripple-backend.vercel.app/home",
         {
           params: {
             userID: window.localStorage.getItem("userID"),
@@ -55,7 +55,7 @@ function Home() {
   const UpdateBoards = async () => {
     try {
       const response = await axios.put(
-        "https://task-ripple-backend.vercel.app:3001/home",
+        "https://task-ripple-backend.vercel.app/home",
         {
           userID: window.localStorage.getItem("userID"),
           boards: JSON.stringify(boards),
