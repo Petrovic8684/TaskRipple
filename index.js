@@ -3,11 +3,13 @@ import cors from "cors";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import corsOptions from "./config/corsOptions.js";
 import { UserModel } from "./models/Users.js";
 
 const app = express();
 
 app.use(express.json());
+app.use(cors(corsOptions));
 
 dotenv.config();
 
