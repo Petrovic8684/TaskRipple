@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 import corsOptions from "./config/corsOptions.js";
 import { UserModel } from "./models/Users.js";
 
@@ -41,9 +42,11 @@ app.post("/register", async (req, res) => {
     return res.json({ message: "User already exists!" });
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   const newUser = new UserModel({
     username: username,
-    password: password,
+    password: hashedPassword,
     boards: "{}",
   });
 
@@ -60,7 +63,7 @@ app.post("/login", async (req, res) => {
     return res.json({ message: "User does not exist!" });
   }
 
-  const isPasswordValid = password === user.password;
+  const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
     return res.json({ message: "Username or password is incorrect!" });
