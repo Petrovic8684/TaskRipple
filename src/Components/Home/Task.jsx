@@ -38,7 +38,7 @@ function Task({ name, detailsButton, editButton, removeButton }) {
 
   return (
     <div
-      className="task w-full max-h-[70px] min-h-[45px] py-2 justify-between items-center mb-[10px] px-3 bg-slate-200 rounded-lg flex flex-row"
+      className="w-full max-h-[70px] min-h-[45px] py-2 justify-between items-center mb-[10px] px-3 bg-slate-200 rounded-lg flex flex-row"
       onMouseOver={() => {
         setShowTaskButtons(true);
       }}
@@ -91,7 +91,3 @@ function Task({ name, detailsButton, editButton, removeButton }) {
 }
 
 export default Task;
-
-/*<div className="text-right unselectable" unselectable="on">
-          {editButton} {removeButton}
-        </div> */

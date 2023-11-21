@@ -18,24 +18,30 @@ function DetailsTask({ task, show, handleClose }) {
         <Modal.Body>
           <div>
             <p className="text-gray-500 font-bold">
-              Name: <span className="text-gray-400">{task.name}</span>
+              Name:{" "}
+              <span className="text-gray-500 font-normal">{task.name}</span>
             </p>
           </div>
           <div>
             <p className="text-gray-500 font-bold">
               Description:{" "}
-              <span className="text-gray-400">{task.description}</span>
+              <span className="text-gray-500 font-normal">
+                {task.description}
+              </span>
             </p>
           </div>
           <div>
             <p className="text-gray-500 font-bold">
               Start date:{" "}
-              <span className="text-gray-400">{task.startdate}</span>
+              <span className="text-gray-500 font-normal">
+                {task.startdate}
+              </span>
             </p>
           </div>
           <div>
             <p className="text-gray-500 font-bold">
-              End date: <span className="text-gray-400">{task.enddate}</span>
+              End date:{" "}
+              <span className="text-gray-500 font-normal">{task.enddate}</span>
             </p>
           </div>
         </Modal.Body>

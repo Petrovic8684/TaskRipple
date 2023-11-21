@@ -51,7 +51,7 @@ function EditTask({ boardName, task, editFunction, show, handleClose }) {
               </div>
               <div className="md:w-2/3">
                 <input
-                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-300"
+                  className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none bg-white focus:border-yellow-300"
                   id="inline-full-name"
                   type="text"
                   value={taskName}
@@ -75,7 +75,7 @@ function EditTask({ boardName, task, editFunction, show, handleClose }) {
               </div>
               <div className="md:w-2/3">
                 <textarea
-                  className="resize-none bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-yellow-300"
+                  className="resize-none appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none bg-white focus:border-yellow-300"
                   id="inline-full-description"
                   type="text"
                   value={taskDescription}

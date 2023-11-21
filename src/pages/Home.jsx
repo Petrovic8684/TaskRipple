@@ -42,7 +42,7 @@ function Home() {
         }
       );
       if (response.data.message === "Could not find user by that id!") {
-        console.log("Could not find user by that id!");
+        console.error("Could not find user by that id!");
         return;
       }
 
@@ -63,7 +63,7 @@ function Home() {
       );
 
       if (response.data.message === "User does not exist!") {
-        console.log("User does not exist!");
+        console.error("User does not exist!");
         return;
       }
 
@@ -255,7 +255,7 @@ function Home() {
   ) : (
     <section className="px-[3%] py-[3%] md:px-[12%]">
       <div className="flex flex-column justify-center items-center">
-        <h1 className=" text-4xl text-gray-700 text-center md:text-5xl">
+        <h1 className="text-4xl text-gray-700 font-bold text-center md:text-5xl">
           {window.localStorage.getItem("username")}'s boards
         </h1>
         <Link to="/" className="mb-3">
@@ -281,7 +281,7 @@ function Home() {
       )}
       <AddBoard addFunction={AddBoardFunction} />
       <hr className="mb-[35px]" />
-      <div className="flex flex-wrap gap-4 justify-evenly items-center mb-[10%]">
+      <div className="flex flex-wrap gap-x-4 gap-y-[40px] lg:gap-y-[70px] justify-evenly items-center mb-[10%]">
         <GridContextProvider onChange={onChange}>
           {Object.keys(boards).map((board) => {
             return (
@@ -310,12 +310,12 @@ function Home() {
                   style={{
                     height:
                       boards[board].length === 0
-                        ? 65 * Math.ceil(boards[board].length + 1) + 45
-                        : 65 * Math.ceil(boards[board].length) + 45,
+                        ? 65 * Math.ceil(boards[board].length + 2)
+                        : 65 * Math.ceil(boards[board].length + 1),
                   }}
                 >
-                  {boards[board].map((task) => (
-                    <GridItem key={task.id}>
+                  {boards[board].map((task, index) => (
+                    <GridItem key={task.id} style={{ zIndex: 9998 - index }}>
                       <Task
                         name={task.name}
                         description={task.description}

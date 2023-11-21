@@ -5,6 +5,7 @@ import axios from "axios";
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -21,11 +22,10 @@ function Register() {
       );
 
       if (response.data.message === "User already exists!") {
-        alert("User already exists!");
+        setMessage("User already exists!");
         return;
       }
 
-      alert("Registration completed! Now login.");
       navigate("/login");
     } catch (err) {
       console.error(err);
@@ -33,8 +33,8 @@ function Register() {
   };
 
   return (
-    <section className="bg-gray-50">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <section>
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold text-gray-700 md:text-2xl">
@@ -85,6 +85,7 @@ function Register() {
               >
                 Register
               </button>
+              <p className="text-red-600">{message}</p>
               <p className="text-sm font-light text-gray-500">
                 Already have an account?{" "}
                 <Link

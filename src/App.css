@@ -1,12 +1,26 @@
-*.unselectable {
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
- }
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap");
 
- body{
-    overflow-x: hidden;
-    overscroll-behavior: none;
- }
+*.unselectable {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+* {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+body {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
+.modal {
+  z-index: 10002 !important;
+}
+
+.modal-backdrop {
+  z-index: 10001 !important;
+}
