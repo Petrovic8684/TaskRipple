@@ -1,6 +1,6 @@
-import { useCallback } from "react";
-import Particles from "react-particles";
-import { loadSlim } from "tsparticles-slim";
+import { useCallback } from 'react';
+import Particles from 'react-particles';
+import { loadSlim } from 'tsparticles-slim';
 
 function ParticlesEffect() {
   const particlesInit = useCallback(async (engine) => {
@@ -11,11 +11,11 @@ function ParticlesEffect() {
 
   return (
     <Particles
-      id="tsparticles"
+      id='tsparticles'
       init={particlesInit}
       loaded={particlesLoaded}
       options={{
-        name: "Snow",
+        name: 'Snow',
         particles: {
           number: {
             value: 70,
@@ -24,10 +24,10 @@ function ParticlesEffect() {
             },
           },
           color: {
-            value: "#919db3",
+            value: '#919db3',
           },
           shape: {
-            type: "circle",
+            type: 'circle',
           },
           opacity: {
             value: 0.2,
@@ -38,7 +38,7 @@ function ParticlesEffect() {
           move: {
             enable: true,
             speed: 2,
-            direction: "bottom",
+            direction: 'bottom',
             straight: false,
           },
           wobble: {
@@ -57,7 +57,7 @@ function ParticlesEffect() {
           },
         },
         background: {
-          color: "#ffffff",
+          color: '#ffffff',
         },
       }}
     />

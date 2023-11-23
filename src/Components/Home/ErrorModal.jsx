@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import Modal from "react-bootstrap/Modal";
-import { useSelector, useDispatch } from "react-redux";
-import { handleShowError } from "../../features/modals";
-import { ResetIsClash } from "../../features/boards";
+import { useEffect } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import { useSelector, useDispatch } from 'react-redux';
+import { handleShowError } from '../../features/modals';
+import { ResetIsClash } from '../../features/boards';
 
 function ErrorModal({ name, details }) {
   const show = useSelector((state) => state.modals.value.showError);
@@ -22,14 +22,14 @@ function ErrorModal({ name, details }) {
       onHide={() => {
         dispatch(handleShowError(false));
       }}
-      backdrop="static"
+      backdrop='static'
       keyboard={false}
     >
       <Modal.Header closeButton>
         <Modal.Title>{name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="md:flex md:items-center mb-6">
+        <div className='md:flex md:items-center mb-6'>
           <p>{details}</p>
         </div>
       </Modal.Body>
@@ -38,7 +38,7 @@ function ErrorModal({ name, details }) {
           onClick={() => {
             dispatch(handleShowError(false));
           }}
-          className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
+          className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0'
         >
           Okay
         </button>

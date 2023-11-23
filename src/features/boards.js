@@ -1,32 +1,31 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
-import { swap, move } from "react-grid-dnd";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { swap, move } from 'react-grid-dnd';
+
+import baseUrl from '../lib/api/apiUrl';
 
 const initialState = {
   boards: {},
   isClash: false,
-  status: "idle",
+  status: 'idle',
   error: null,
 };
 
 export const FetchBoards = createAsyncThunk(
-  "boards/FetchBoards",
+  'boards/FetchBoards',
   async (arg, thunkAPI) => {
     try {
       const cookies = arg.cookies;
-      const response = await axios.get(
-        "https://task-ripple-backend.vercel.app/home",
-        {
-          params: {
-            userID: window.localStorage.getItem("userID"),
-          },
-          headers: { authorization: cookies },
-        }
-      );
+      const response = await axios.get(`${baseUrl}/home`, {
+        params: {
+          userID: window.localStorage.getItem('userID'),
+        },
+        headers: { authorization: cookies },
+      });
 
-      if (response.data.message === "Could not find user by that id!") {
-        throw new Error("Could not find user by that id!");
+      if (response.data.message === 'Could not find user by that id!') {
+        throw new Error('Could not find user by that id!');
       }
 
       return JSON.parse(response?.data);
@@ -37,29 +36,26 @@ export const FetchBoards = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      return thunkAPI.rejectWithValue({ value: "rejected", error: message });
+      return thunkAPI.rejectWithValue({ value: 'rejected', error: message });
     }
   }
 );
 
 export const UpdateBoards = createAsyncThunk(
-  "boards/UpdateBoards",
+  'boards/UpdateBoards',
   async (arg, thunkAPI) => {
     try {
-      const response = await axios.put(
-        "https://task-ripple-backend.vercel.app/home",
-        {
-          userID: window.localStorage.getItem("userID"),
-          boards: JSON.stringify(arg.boards),
-        }
-      );
+      const response = await axios.put(`${baseUrl}/home`, {
+        userID: window.localStorage.getItem('userID'),
+        boards: JSON.stringify(arg.boards),
+      });
 
-      if (response.data.message === "User does not exist!") {
-        throw new Error("User does not exist!");
+      if (response.data.message === 'User does not exist!') {
+        throw new Error('User does not exist!');
       }
 
-      if (response.data.message === "Records up to date!") {
-        console.log("Records up to date!");
+      if (response.data.message === 'Records up to date!') {
+        console.log('Records up to date!');
         return;
       }
     } catch (error) {
@@ -69,13 +65,13 @@ export const UpdateBoards = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      return thunkAPI.rejectWithValue({ value: "rejected", error: message });
+      return thunkAPI.rejectWithValue({ value: 'rejected', error: message });
     }
   }
 );
 
 const boardsSlice = createSlice({
-  name: "boards",
+  name: 'boards',
   initialState,
   reducers: {
     AddBoardFunction: (state, action) => {
@@ -211,18 +207,18 @@ const boardsSlice = createSlice({
 
   extraReducers(builder) {
     builder.addCase(FetchBoards.pending, (state) => {
-      state.status = "loading";
+      state.status = 'loading';
     });
     builder.addCase(FetchBoards.fulfilled, (state, action) => {
-      state.status = "successful";
+      state.status = 'successful';
       state.boards = action.payload;
     });
     builder.addCase(FetchBoards.rejected, (state, action) => {
-      state.status = "failed";
+      state.status = 'failed';
       state.error = action.payload.error;
     });
     builder.addCase(UpdateBoards.rejected, (state, action) => {
-      state.status = "failed";
+      state.status = 'failed';
       state.error = action.payload.error;
     });
   },

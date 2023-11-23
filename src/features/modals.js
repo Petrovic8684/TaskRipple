@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   showBoardAdd: false,
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 const modalsSlice = createSlice({
-  name: "modals",
+  name: 'modals',
   initialState: { value: initialState },
   reducers: {
     handleShowBoardAdd: (state, action) => {

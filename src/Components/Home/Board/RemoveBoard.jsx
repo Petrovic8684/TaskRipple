@@ -1,7 +1,7 @@
-import Modal from "react-bootstrap/Modal";
-import { useSelector, useDispatch } from "react-redux";
-import { handleShowBoardRemove } from "../../../features/modals";
-import { RemoveBoardFunction } from "../../../features/boards";
+import Modal from 'react-bootstrap/Modal';
+import { useSelector, useDispatch } from 'react-redux';
+import { handleShowBoardRemove } from '../../../features/modals';
+import { RemoveBoardFunction } from '../../../features/boards';
 
 function RemoveBoard() {
   const show = useSelector((state) => state.modals.value.showBoardRemove);
@@ -15,7 +15,7 @@ function RemoveBoard() {
         onHide={() => {
           dispatch(handleShowBoardRemove(false));
         }}
-        backdrop="static"
+        backdrop='static'
         keyboard={false}
       >
         <Modal.Header closeButton>
@@ -26,11 +26,11 @@ function RemoveBoard() {
             onSubmit={(e) => {
               e.preventDefault();
             }}
-            autoComplete="off"
-            id="removeboard"
-            className="w-full md:max-w-sm md:w-auto"
+            autoComplete='off'
+            id='removeboard'
+            className='w-full md:max-w-sm md:w-auto'
           >
-            <div className="md:flex md:items-center mb-6">
+            <div className='md:flex md:items-center mb-6'>
               <p>Are you sure you want to remove this board?</p>
             </div>
           </form>
@@ -40,7 +40,7 @@ function RemoveBoard() {
             onClick={() => {
               dispatch(handleShowBoardRemove(false));
             }}
-            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
+            className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0'
           >
             No
           </button>
@@ -49,8 +49,8 @@ function RemoveBoard() {
               dispatch(handleShowBoardRemove(false));
               dispatch(RemoveBoardFunction(boardName));
             }}
-            form="removeboard"
-            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
+            form='removeboard'
+            className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0'
           >
             Yes
           </button>

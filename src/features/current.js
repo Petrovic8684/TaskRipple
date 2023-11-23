@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice, current } from '@reduxjs/toolkit';
 
 const initialState = {
   currentTask: {},
@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const currentSlice = createSlice({
-  name: "current",
+  name: 'current',
   initialState,
   reducers: {
     SetCurrentTask: (state, action) => {
