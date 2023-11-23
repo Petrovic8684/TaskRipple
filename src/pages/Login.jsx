@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -13,10 +13,9 @@ function Login() {
   const [cookies, setCookies] = useCookies(['access_token']);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (cookies.access_token) {
-      setMessage('You are already logged in.');
-      return;
+      navigate('/');
     }
   }, []);
 
@@ -61,7 +60,6 @@ function Login() {
                 <label
                   htmlFor='username'
                   className='block mb-2 text-sm font-medium text-gray-700'
-                  hidden={cookies.access_token}
                 >
                   Username
                 </label>
@@ -75,15 +73,12 @@ function Login() {
                   autoComplete='off'
                   required
                   className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5'
-                  disabled={cookies.access_token}
-                  hidden={cookies.access_token}
                 />
               </div>
               <div>
                 <label
                   htmlFor='password'
                   className='block mb-2 text-sm font-medium text-gray-700'
-                  hidden={cookies.access_token}
                 >
                   Password
                 </label>
@@ -97,34 +92,26 @@ function Login() {
                   autoComplete='off'
                   required
                   className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5'
-                  disabled={cookies.access_token}
-                  hidden={cookies.access_token}
                 />
               </div>
               <button
                 type='submit'
                 className='w-full text-white bg-blue-400 hover:bg-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
-                disabled={cookies.access_token}
-                hidden={cookies.access_token}
               >
                 Login
               </button>
               <p className='text-red-600'>{message}</p>
-              <p
-                className='text-sm font-light text-gray-500'
-                hidden={cookies.access_token}
-              >
+              <p className='text-sm font-light text-gray-500'>
                 Don't already have an account?{' '}
                 <Link
                   to='/register'
                   className='font-medium text-blue-600 hover:underline'
-                  hidden={cookies.access_token}
                 >
                   Register here
                 </Link>
               </p>
             </form>
-            <Link to='/' hidden={!cookies.access_token}>
+            <Link to='/'>
               <svg
                 fill='none'
                 stroke='currentColor'

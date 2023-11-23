@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useCookies } from 'react-cookie';
 
@@ -35,8 +35,15 @@ function Home() {
   const dispatch = useDispatch();
   const { boards, status, error } = useSelector((state) => state.boards);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const navigate = useNavigate();
 
   const [cookies, _] = useCookies(['access_token']);
+
+  useLayoutEffect(() => {
+    if (cookies.access_token) {
+      navigate('/');
+    }
+  }, []);
 
   useEffect(() => {
     if (status === 'idle') {
