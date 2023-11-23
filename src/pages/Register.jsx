@@ -1,5 +1,5 @@
-import { useState, useLayoutEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
@@ -12,12 +12,6 @@ function Register() {
 
   const [cookies, setCookies] = useCookies(['access_token']);
   const navigate = useNavigate();
-
-  useLayoutEffect(() => {
-    if (cookies.access_token) {
-      navigate('/');
-    }
-  }, [cookies]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +32,8 @@ function Register() {
       console.error(err);
     }
   };
+
+  if (cookies.access_token) return <Navigate to={'/'} />;
 
   return (
     <section>

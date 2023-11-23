@@ -1,6 +1,6 @@
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 import baseUrl from '../lib/api/apiUrl';
@@ -12,12 +12,6 @@ function Login() {
 
   const [cookies, setCookies] = useCookies(['access_token']);
   const navigate = useNavigate();
-
-  useLayoutEffect(() => {
-    if (cookies.access_token) {
-      navigate('/');
-    }
-  }, [cookies]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -46,6 +40,8 @@ function Login() {
       console.error(err);
     }
   };
+
+  if (cookies.access_token) return <Navigate to={'/'} />;
 
   return (
     <section>

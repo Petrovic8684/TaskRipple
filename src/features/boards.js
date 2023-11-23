@@ -17,6 +17,7 @@ export const FetchBoards = createAsyncThunk(
   async (arg, thunkAPI) => {
     try {
       const cookies = arg.cookies;
+
       const response = await axios.get(`${baseUrl}/home`, {
         params: {
           userID: window.localStorage.getItem('userID'),
