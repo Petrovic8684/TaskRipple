@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 
 function Register() {
@@ -7,7 +8,17 @@ function Register() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const [cookies, setCookies] = useCookies(["access_token"]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (cookies.access_token) {
+      setMessage(
+        "You are currently logged in. To register a new user please logout first."
+      );
+      return;
+    }
+  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +56,7 @@ function Register() {
                 <label
                   htmlFor="username"
                   className="block mb-2 text-sm font-medium text-gray-700"
+                  hidden={cookies.access_token}
                 >
                   Username
                 </label>
@@ -58,12 +70,15 @@ function Register() {
                   autoComplete="off"
                   required
                   className="bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5"
+                  disabled={cookies.access_token}
+                  hidden={cookies.access_token}
                 />
               </div>
               <div>
                 <label
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-700"
+                  hidden={cookies.access_token}
                 >
                   Password
                 </label>
@@ -77,25 +92,48 @@ function Register() {
                   autoComplete="off"
                   required
                   className="bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5"
+                  disabled={cookies.access_token}
+                  hidden={cookies.access_token}
                 />
               </div>
               <button
                 type="submit"
                 className="w-full text-white bg-blue-400 hover:bg-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                disabled={cookies.access_token}
+                hidden={cookies.access_token}
               >
                 Register
               </button>
               <p className="text-red-600">{message}</p>
-              <p className="text-sm font-light text-gray-500">
+              <p
+                className="text-sm font-light text-gray-500"
+                hidden={cookies.access_token}
+              >
                 Already have an account?{" "}
                 <Link
                   to="/login"
                   className="font-medium text-blue-600 hover:underline"
+                  hidden={cookies.access_token}
                 >
                   Login here
                 </Link>
               </p>
             </form>
+            <Link to="/" hidden={!cookies.access_token}>
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.2}
+                viewBox="0 0 24 22"
+                className="w-10 h-10 mt-4"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" />
+                <path d="M14 8V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h7a2 2 0 002-2v-2" />
+                <path d="M7 12h14l-3-3m0 6l3-3" />
+              </svg>
+            </Link>
           </div>
         </div>
       </div>

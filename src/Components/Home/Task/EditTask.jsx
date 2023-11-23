@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { useSelector, useDispatch } from "react-redux";
+import { handleShowTaskEdit } from "../../../features/modals";
+import { EditTaskFunction } from "../../../features/boards";
 
-function EditTask({ boardName, task, editFunction, show, handleClose }) {
+function EditTask() {
   const [taskName, setTaskName] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [taskStartDate, setTaskStartDate] = useState("");
   const [taskEndDate, setTaskEndDate] = useState("");
+
+  const show = useSelector((state) => state.modals.value.showTaskEdit);
+  const boardName = useSelector((state) => state.current.currentBoardName);
+  const task = useSelector((state) => state.current.currentTask);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (show === true) {
@@ -20,10 +28,9 @@ function EditTask({ boardName, task, editFunction, show, handleClose }) {
   return (
     <>
       <Modal
-        className="pointer-events-auto"
         show={show}
         onHide={() => {
-          handleClose();
+          dispatch(handleShowTaskEdit(false));
         }}
         backdrop="static"
         keyboard={false}
@@ -35,6 +42,7 @@ function EditTask({ boardName, task, editFunction, show, handleClose }) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              dispatch(handleShowTaskEdit(false));
             }}
             autoComplete="off"
             id="edittask"
@@ -132,7 +140,7 @@ function EditTask({ boardName, task, editFunction, show, handleClose }) {
         <Modal.Footer>
           <button
             onClick={() => {
-              handleClose();
+              dispatch(handleShowTaskEdit(false));
             }}
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
           >
@@ -140,19 +148,22 @@ function EditTask({ boardName, task, editFunction, show, handleClose }) {
           </button>
           <button
             onClick={() => {
-              handleClose();
-              editFunction(
-                boardName,
-                task.id,
-                taskName,
-                taskDescription,
-                taskStartDate,
-                taskEndDate
+              dispatch(handleShowTaskEdit(false));
+              dispatch(
+                EditTaskFunction({
+                  boardName: boardName,
+                  taskId: task.id,
+                  taskName: taskName,
+                  taskDescription: taskDescription,
+                  taskStartDate: taskStartDate,
+                  taskEndDate: taskEndDate,
+                })
               );
+
               setTaskName("");
               setTaskDescription("");
-              setTaskStartDate(new Date());
-              setTaskEndDate(new Date());
+              setTaskStartDate("");
+              setTaskEndDate("");
             }}
             form="edittask"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0"

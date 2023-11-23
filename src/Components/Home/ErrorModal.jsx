@@ -1,21 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
+import { useSelector, useDispatch } from "react-redux";
+import { handleShowError } from "../../features/modals";
+import { ResetIsClash } from "../../features/boards";
 
-function ErrorModal({ name, details, existsClash, setExistsClash }) {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+function ErrorModal({ name, details }) {
+  const show = useSelector((state) => state.modals.value.showError);
+  const { isClash } = useSelector((state) => state.boards);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (existsClash) {
-      handleShow();
-      setExistsClash(false);
+    if (isClash) {
+      dispatch(handleShowError(true));
+      dispatch(ResetIsClash());
     }
-  }, [existsClash]);
+  }, [isClash]);
 
   return (
-    <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+    <Modal
+      show={show}
+      onHide={() => {
+        dispatch(handleShowError(false));
+      }}
+      backdrop="static"
+      keyboard={false}
+    >
       <Modal.Header closeButton>
         <Modal.Title>{name}</Modal.Title>
       </Modal.Header>
@@ -26,7 +35,9 @@ function ErrorModal({ name, details, existsClash, setExistsClash }) {
       </Modal.Body>
       <Modal.Footer>
         <button
-          onClick={handleClose}
+          onClick={() => {
+            dispatch(handleShowError(false));
+          }}
           className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
         >
           Okay

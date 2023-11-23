@@ -29,11 +29,17 @@ const CustomMenu = forwardRef(
   }
 );
 
-function Board({ name, editButton, removeButton, children }) {
+function Board({
+  name,
+  editBoardButton,
+  removeBoardButton,
+  addTaskButton,
+  children,
+}) {
   const [showBoardButtons, setShowBoardButtons] = useState(false);
 
   return (
-    <div className="w-[24rem] justify-center items-center bg-white shadow-lg rounded-lg flex flex-col">
+    <div className="w-[24rem] justify-center items-center bg-white shadow-lg rounded-lg flex flex-col relative">
       <div className="w-full p-4 justify-start flex flex-col">
         <div
           className="flex justify-between"
@@ -64,8 +70,8 @@ function Board({ name, editButton, removeButton, children }) {
                   </svg>
                 </Dropdown.Toggle>
                 <Dropdown.Menu as={CustomMenu} style={{ zIndex: 9999 }}>
-                  <Dropdown.Item>{editButton}</Dropdown.Item>
-                  <Dropdown.Item>{removeButton}</Dropdown.Item>
+                  <Dropdown.Item>{editBoardButton}</Dropdown.Item>
+                  <Dropdown.Item>{removeBoardButton}</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
@@ -73,6 +79,7 @@ function Board({ name, editButton, removeButton, children }) {
         </div>
         {children}
       </div>
+      {addTaskButton}
     </div>
   );
 }

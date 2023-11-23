@@ -1,412 +1,256 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import { useCookies } from "react-cookie";
 
-import Board from "../Components/Home/Board";
-import AddBoard from "../Components/Home/AddBoard";
-import EditBoard from "../Components/Home/EditBoard";
-import RemoveBoard from "../Components/Home/RemoveBoard";
-
-import Task from "../Components/Home/Task";
-import AddTask from "../Components/Home/AddTask";
-import DetailsTask from "../Components/Home/DetailsTask";
-import EditTask from "../Components/Home/EditTask";
-import RemoveTask from "../Components/Home/RemoveTask";
-
+import Board from "../Components/Home/Board/Board";
+import AddBoard from "../Components/Home/Board/AddBoard";
+import EditBoard from "../Components/Home/Board/EditBoard";
+import RemoveBoard from "../Components/Home/Board/RemoveBoard";
+import Task from "../Components/Home/Task/Task";
+import AddTask from "../Components/Home/Task/AddTask";
+import DetailsTask from "../Components/Home/Task/DetailsTask";
+import EditTask from "../Components/Home/Task/EditTask";
+import RemoveTask from "../Components/Home/Task/RemoveTask";
 import ErrorModal from "../Components/Home/ErrorModal";
 
-import { v4 as uuidv4 } from "uuid";
-import {
-  GridContextProvider,
-  GridDropZone,
-  GridItem,
-  swap,
-  move,
-} from "react-grid-dnd";
+import { GridContextProvider, GridDropZone, GridItem } from "react-grid-dnd";
 
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  handleShowTaskAdd,
+  handleShowTaskDetails,
+  handleShowTaskEdit,
+  handleShowTaskRemove,
+} from "../features/modals";
+import { FetchBoards, UpdateBoards, onChange } from "../features/boards";
+import { SetCurrentBoardName, SetCurrentTask } from "../features/current";
+import { handleShowBoardEdit } from "../features/modals";
+import { handleShowBoardRemove } from "../features/modals";
+import LoadingPage from "../Components/Home/LoadingPage";
+import ErrorPage from "../Components/Home/ErrorPage";
 
 function Home() {
-  const [boards, setBoards] = useState({});
+  const dispatch = useDispatch();
+  const { boards, status, error } = useSelector((state) => state.boards);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+
   const [cookies, _] = useCookies(["access_token"]);
 
-  const FetchBoards = async () => {
-    try {
-      const response = await axios.get(
-        "https://taskripple-api.onrender.com/home",
-        {
-          params: {
-            userID: window.localStorage.getItem("userID"),
-          },
-          headers: { authorization: cookies.access_token },
-        }
-      );
-      if (response.data.message === "Could not find user by that id!") {
-        console.error("Could not find user by that id!");
+  useEffect(() => {
+    if (status === "idle") {
+      if (isFirstLoad) {
+        dispatch(FetchBoards({ cookies: cookies.access_token }));
+        setIsFirstLoad(false);
         return;
       }
-
-      setBoards(JSON.parse(response.data));
-    } catch (err) {
-      console.error(err);
     }
-  };
-
-  const UpdateBoards = async () => {
-    try {
-      const response = await axios.put(
-        "https://taskripple-api.onrender.com/home",
-        {
-          userID: window.localStorage.getItem("userID"),
-          boards: JSON.stringify(boards),
-        }
-      );
-
-      if (response.data.message === "User does not exist!") {
-        console.error("User does not exist!");
-        return;
-      }
-
-      if (response.data.message === "Records up to date!") {
-        console.log("Records up to date!");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const [isLoad, setIsLoad] = useState(true);
+  }, [status, dispatch]);
 
   useEffect(() => {
-    if (isLoad) {
-      FetchBoards();
-      setIsLoad(false);
-      return;
-    } else {
-      UpdateBoards();
+    if (!isFirstLoad) {
+      dispatch(UpdateBoards({ boards: boards }));
     }
-  }, [boards]);
+  }, [boards, dispatch]);
 
-  const [currentTask, setCurrentTask] = useState({});
-  const [currentBoardName, setCurrentBoardName] = useState();
+  let homeContent;
 
-  const [showDetails, setShowDetails] = useState(false);
-  const [showEdit, setShowEdit] = useState(false);
-  const [showRemove, setShowRemove] = useState(false);
-
-  const handleDetailsClose = () => setShowDetails(false);
-  const handleDetailsShow = () => setShowDetails(true);
-  const handleEditClose = () => setShowEdit(false);
-  const handleEditShow = () => setShowEdit(true);
-  const handleRemoveClose = () => setShowRemove(false);
-  const handleRemoveShow = () => setShowRemove(true);
-
-  const [existsClash, setExistsClash] = useState(false);
-
-  function AddBoardFunction(boardName) {
-    let clash = false;
-
-    Object.keys(boards).forEach((board) => {
-      if (board === boardName) {
-        setExistsClash(true);
-        clash = true;
-        return;
-      }
-    });
-
-    if (clash === true) return;
-
-    setBoards({ ...boards, [boardName]: [] });
-  }
-
-  function EditBoardFunction(boardName, newName) {
-    if (boardName === newName) return;
-
-    const keys = Object.keys(boards);
-    let clash = false;
-
-    keys.forEach((board) => {
-      if (board === newName) {
-        setExistsClash(true);
-        clash = true;
-        return;
-      }
-    });
-
-    if (clash === true) return;
-
-    const newObj = keys.reduce((acc, val) => {
-      if (val === boardName) {
-        acc[newName] = boards[boardName];
-      } else {
-        acc[val] = boards[val];
-      }
-      return acc;
-    }, {});
-
-    setBoards(newObj);
-  }
-
-  function RemoveBoardFunction(boardName) {
-    setBoards((prevState) => {
-      const copy = { ...prevState };
-      delete copy[boardName];
-
-      return copy;
-    });
-  }
-
-  function AddTaskFunction(
-    boardName,
-    taskName,
-    taskDescription,
-    taskStartDate,
-    taskEndDate
-  ) {
-    const newTask = {
-      id: uuidv4(),
-      name: taskName,
-      description: taskDescription,
-      startdate: taskStartDate,
-      enddate: taskEndDate,
-    };
-
-    Object.keys(boards).forEach((board) => {
-      if (board === boardName) {
-        setBoards((prevState) => {
-          return {
-            ...boards,
-            [board]: [...prevState[board], newTask],
-          };
-        });
-      }
-    });
-  }
-
-  function EditTaskFunction(
-    boardName,
-    taskId,
-    taskName,
-    taskDescription,
-    taskStartDate,
-    taskEndDate
-  ) {
-    Object.keys(boards).forEach((board) => {
-      if (board === boardName) {
-        setBoards((prevState) => {
-          return {
-            ...boards,
-            [board]: prevState[board].map((task) => {
-              if (task.id === taskId) {
-                const newTask = task;
-                newTask.name = taskName;
-                newTask.description = taskDescription;
-                newTask.startdate = taskStartDate;
-                newTask.enddate = taskEndDate;
-                return newTask;
-              }
-              return task;
-            }),
-          };
-        });
-      }
-    });
-  }
-
-  function RemoveTaskFunction(boardName, taskId) {
-    Object.keys(boards).forEach((board) => {
-      if (board === boardName) {
-        setBoards((prevState) => {
-          return {
-            ...boards,
-            [board]: prevState[board].filter((task) => {
-              return task.id !== taskId;
-            }),
-          };
-        });
-      }
-    });
-  }
-
-  function onChange(sourceId, sourceIndex, targetIndex, targetId) {
-    if (targetId) {
-      const result = move(
-        boards[sourceId],
-        boards[targetId],
-        sourceIndex,
-        targetIndex
-      );
-      return setBoards({
-        ...boards,
-        [sourceId]: result[0],
-        [targetId]: result[1],
-      });
-    }
-
-    const result = swap(boards[sourceId], sourceIndex, targetIndex);
-    return setBoards({
-      ...boards,
-      [sourceId]: result,
-    });
-  }
-
-  return cookies.access_token === "" ? (
-    <></>
-  ) : (
-    <section className="px-[3%] py-[3%] md:px-[12%]">
-      <div className="flex flex-column justify-center items-center">
-        <h1 className="text-4xl text-gray-700 font-bold text-center md:text-5xl">
-          {window.localStorage.getItem("username")}'s boards
-        </h1>
-        <Link to="/" className="mb-3">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            viewBox="0 0 24 22"
-            className="w-10 h-10"
+  if (status === "loading") {
+    homeContent = <LoadingPage />;
+  } else if (status === "successful") {
+    homeContent = (
+      <section className="px-[3%] py-[50px] md:px-[12%]">
+        <div className="flex flex-column justify-center items-center">
+          <h1 className="text-4xl text-gray-700 font-bold text-center md:text-5xl">
+            {window.localStorage.getItem("username")}'s boards
+          </h1>
+          <Link to="/" className="mb-3">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              viewBox="0 0 24 22"
+              className="w-10 h-10"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" />
+              <path d="M14 8V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h7a2 2 0 002-2v-2" />
+              <path d="M7 12h14l-3-3m0 6l3-3" />
+            </svg>
+          </Link>
+        </div>
+        {Object.keys(boards).length === 0 && (
+          <p className="mb-[15px] text-lg text-gray-600 text-center md:text-xl md:mb-8">
+            Looks like you don't have any boards yet!
+          </p>
+        )}
+        <AddBoard />
+        <hr className="mb-[35px]" />
+        <div className="flex flex-wrap gap-x-4 gap-y-[40px] lg:gap-y-[70px] justify-evenly items-start mb-[10%]">
+          <GridContextProvider
+            onChange={(sourceId, sourceIndex, targetIndex, targetId) => {
+              dispatch(
+                onChange({
+                  sourceId: sourceId,
+                  sourceIndex: sourceIndex,
+                  targetIndex: targetIndex,
+                  targetId: targetId,
+                })
+              );
+            }}
           >
-            <path stroke="none" d="M0 0h24v24H0z" />
-            <path d="M14 8V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h7a2 2 0 002-2v-2" />
-            <path d="M7 12h14l-3-3m0 6l3-3" />
-          </svg>
-        </Link>
-      </div>
-      {Object.keys(boards).length === 0 && (
-        <p className="mb-[15px] text-lg text-gray-600 text-center md:text-xl md:mb-8">
-          Looks like you don't have any boards yet!
-        </p>
-      )}
-      <AddBoard addFunction={AddBoardFunction} />
-      <hr className="mb-[35px]" />
-      <div className="flex flex-wrap gap-x-4 gap-y-[40px] lg:gap-y-[70px] justify-evenly items-center mb-[10%]">
-        <GridContextProvider onChange={onChange}>
-          {Object.keys(boards).map((board) => {
-            return (
-              <Board
-                key={uuidv4()}
-                name={board}
-                editButton={
-                  <EditBoard
-                    boardName={board}
-                    editFunction={EditBoardFunction}
-                    previousBoardName={board}
-                  />
-                }
-                removeButton={
-                  <RemoveBoard
-                    boardName={board}
-                    removeFunction={RemoveBoardFunction}
-                  />
-                }
-              >
-                <GridDropZone
+            {Object.keys(boards).map((board) => {
+              return (
+                <Board
                   key={uuidv4()}
-                  id={board}
-                  boxesPerRow={1}
-                  rowHeight={65}
-                  style={{
-                    height:
-                      boards[board].length === 0
-                        ? 65 * Math.ceil(boards[board].length + 2)
-                        : 65 * Math.ceil(boards[board].length + 1),
-                  }}
+                  name={board}
+                  editBoardButton={
+                    <div
+                      onClick={() => {
+                        dispatch(handleShowBoardEdit(true));
+                        dispatch(SetCurrentBoardName(board));
+                      }}
+                    >
+                      Edit
+                    </div>
+                  }
+                  removeBoardButton={
+                    <div
+                      onClick={() => {
+                        dispatch(handleShowBoardRemove(true));
+                        dispatch(SetCurrentBoardName(board));
+                      }}
+                    >
+                      Remove
+                    </div>
+                  }
+                  addTaskButton={
+                    <button
+                      onClick={() => {
+                        dispatch(handleShowTaskAdd(true));
+                        dispatch(SetCurrentBoardName(board));
+                      }}
+                      className="flex justify-center items-center w-[45px] h-[45px] text-xl text-white bg-blue-400 rounded-full md:text-3xl absolute bottom-5 left-6 "
+                    >
+                      <svg
+                        viewBox="0 0 512 512"
+                        fill="currentColor"
+                        height="1.8rem"
+                        width="1.8rem"
+                      >
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={32}
+                          d="M256 112v288M400 256H112"
+                        />
+                      </svg>
+                    </button>
+                  }
                 >
-                  {boards[board].map((task, index) => (
-                    <GridItem key={task.id} style={{ zIndex: 9998 - index }}>
-                      <Task
-                        name={task.name}
-                        description={task.description}
-                        detailsButton={
-                          <div
-                            onClick={() => {
-                              handleDetailsShow();
-                              setCurrentTask({
-                                id: task.id,
-                                name: task.name,
-                                description: task.description,
-                                startdate: task.startdate,
-                                enddate: task.enddate,
-                              });
-                            }}
-                          >
-                            Show details
-                          </div>
-                        }
-                        editButton={
-                          <div
-                            onClick={() => {
-                              handleEditShow();
-                              setCurrentBoardName(board);
-                              setCurrentTask({
-                                id: task.id,
-                                name: task.name,
-                                description: task.description,
-                                startdate: task.startdate,
-                                enddate: task.enddate,
-                              });
-                            }}
-                          >
-                            Edit
-                          </div>
-                        }
-                        removeButton={
-                          <div
-                            onClick={() => {
-                              handleRemoveShow();
-                              setCurrentBoardName(board);
-                              setCurrentTask({
-                                id: task.id,
-                                name: task.name,
-                                description: task.description,
-                                startdate: task.startdate,
-                                enddate: task.enddate,
-                              });
-                            }}
-                          >
-                            Remove
-                          </div>
-                        }
-                      />
-                    </GridItem>
-                  ))}
-                </GridDropZone>
+                  <GridDropZone
+                    key={uuidv4()}
+                    id={board}
+                    boxesPerRow={1}
+                    rowHeight={65}
+                    style={{
+                      height:
+                        boards[board].length === 0
+                          ? 65 * Math.ceil(boards[board].length + 3)
+                          : 65 * Math.ceil(boards[board].length + 2),
+                    }}
+                  >
+                    {boards[board].map((task, index) => (
+                      <GridItem key={task?.id} style={{ zIndex: 9998 - index }}>
+                        <Task
+                          name={task?.name}
+                          description={task?.description}
+                          detailsButton={
+                            <div
+                              onClick={() => {
+                                dispatch(handleShowTaskDetails(true));
+                                dispatch(
+                                  SetCurrentTask({
+                                    id: task?.id,
+                                    name: task?.name,
+                                    description: task?.description,
+                                    startdate: task?.startdate,
+                                    enddate: task?.enddate,
+                                  })
+                                );
+                              }}
+                            >
+                              Show details
+                            </div>
+                          }
+                          editButton={
+                            <div
+                              onClick={() => {
+                                dispatch(handleShowTaskEdit(true));
+                                dispatch(SetCurrentBoardName(board));
+                                dispatch(
+                                  SetCurrentTask({
+                                    id: task?.id,
+                                    name: task?.name,
+                                    description: task?.description,
+                                    startdate: task?.startdate,
+                                    enddate: task?.enddate,
+                                  })
+                                );
+                              }}
+                            >
+                              Edit
+                            </div>
+                          }
+                          removeButton={
+                            <div
+                              onClick={() => {
+                                dispatch(handleShowTaskRemove(true));
+                                dispatch(SetCurrentBoardName(board));
+                                dispatch(
+                                  SetCurrentTask({
+                                    id: task?.id,
+                                    name: task?.name,
+                                    description: task?.description,
+                                    startdate: task?.startdate,
+                                    enddate: task?.enddate,
+                                  })
+                                );
+                              }}
+                            >
+                              Remove
+                            </div>
+                          }
+                        />
+                      </GridItem>
+                    ))}
+                  </GridDropZone>
+                </Board>
+              );
+            })}
+          </GridContextProvider>
+          <AddTask />
+          <EditBoard />
+          <RemoveBoard />
+          <DetailsTask />
+          <EditTask />
+          <RemoveTask />
+          <ErrorModal
+            name="Error"
+            details="There already exists a board by that name!"
+          />
+        </div>
+      </section>
+    );
+  } else if (status === "failed") {
+    homeContent = <ErrorPage error={error} />;
+  }
 
-                <AddTask boardName={board} addFunction={AddTaskFunction} />
-              </Board>
-            );
-          })}
-        </GridContextProvider>
-        <DetailsTask
-          task={currentTask}
-          show={showDetails}
-          handleClose={handleDetailsClose}
-        />
-        <EditTask
-          boardName={currentBoardName}
-          task={currentTask}
-          editFunction={EditTaskFunction}
-          show={showEdit}
-          handleClose={handleEditClose}
-        />
-        <RemoveTask
-          boardName={currentBoardName}
-          task={currentTask}
-          removeFunction={RemoveTaskFunction}
-          show={showRemove}
-          handleClose={handleRemoveClose}
-        />
-        <ErrorModal
-          name="Error"
-          details="There already exists a board by that name!"
-          existsClash={existsClash}
-          setExistsClash={setExistsClash}
-        />
-      </div>
-    </section>
-  );
+  return <div>{homeContent}</div>;
 }
 
 export default Home;

@@ -1,16 +1,25 @@
 import Modal from "react-bootstrap/Modal";
+import { useSelector, useDispatch } from "react-redux";
+import { handleShowBoardRemove } from "../../../features/modals";
+import { RemoveBoardFunction } from "../../../features/boards";
 
-function RemoveTask({ boardName, task, removeFunction, show, handleClose }) {
+function RemoveBoard() {
+  const show = useSelector((state) => state.modals.value.showBoardRemove);
+  const boardName = useSelector((state) => state.current.currentBoardName);
+  const dispatch = useDispatch();
+
   return (
     <>
       <Modal
         show={show}
-        onHide={handleClose}
+        onHide={() => {
+          dispatch(handleShowBoardRemove(false));
+        }}
         backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Remove Task</Modal.Title>
+          <Modal.Title>Remove Board</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form
@@ -18,18 +27,18 @@ function RemoveTask({ boardName, task, removeFunction, show, handleClose }) {
               e.preventDefault();
             }}
             autoComplete="off"
-            id="removetask"
+            id="removeboard"
             className="w-full md:max-w-sm md:w-auto"
           >
             <div className="md:flex md:items-center mb-6">
-              <p>Are you sure you want to remove this task?</p>
+              <p>Are you sure you want to remove this board?</p>
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
           <button
             onClick={() => {
-              handleClose();
+              dispatch(handleShowBoardRemove(false));
             }}
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
           >
@@ -37,10 +46,10 @@ function RemoveTask({ boardName, task, removeFunction, show, handleClose }) {
           </button>
           <button
             onClick={() => {
-              handleClose();
-              removeFunction(boardName, task.id);
+              dispatch(handleShowBoardRemove(false));
+              dispatch(RemoveBoardFunction(boardName));
             }}
-            form="removetask"
+            form="removeboard"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
           >
             Yes
@@ -51,4 +60,4 @@ function RemoveTask({ boardName, task, removeFunction, show, handleClose }) {
   );
 }
 
-export default RemoveTask;
+export default RemoveBoard;

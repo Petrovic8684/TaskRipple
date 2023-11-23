@@ -1,18 +1,21 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import { useSelector, useDispatch } from "react-redux";
+import { handleShowBoardAdd } from "../../../features/modals";
+import { AddBoardFunction } from "../../../features/boards";
 
-function AddBoard({ addFunction }) {
+function AddBoard() {
   const [boardName, setBoardName] = useState("");
 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const show = useSelector((state) => state.modals.value.showBoardAdd);
+  const dispatch = useDispatch();
 
   return (
     <>
       <button
-        onClick={handleShow}
+        onClick={() => {
+          dispatch(handleShowBoardAdd(true));
+        }}
         className="h-[70px] w-[70px] text-2xl text-white bg-blue-400 z-[10000] flex justify-center items-center rounded-full fixed bottom-10 right-10 md:text-4xl md:bottom-20 md:right-20"
       >
         <svg
@@ -34,7 +37,9 @@ function AddBoard({ addFunction }) {
 
       <Modal
         show={show}
-        onHide={handleClose}
+        onHide={() => {
+          dispatch(handleShowBoardAdd(false));
+        }}
         backdrop="static"
         keyboard={false}
       >
@@ -45,8 +50,8 @@ function AddBoard({ addFunction }) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleClose();
-              addFunction(boardName);
+              dispatch(handleShowBoardAdd(false));
+              dispatch(AddBoardFunction(boardName));
               setBoardName("");
             }}
             autoComplete="off"
@@ -81,7 +86,9 @@ function AddBoard({ addFunction }) {
         </Modal.Body>
         <Modal.Footer>
           <button
-            onClick={handleClose}
+            onClick={() => {
+              dispatch(handleShowBoardAdd(false));
+            }}
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
           >
             Close

@@ -1,13 +1,19 @@
 import Modal from "react-bootstrap/Modal";
+import { useSelector, useDispatch } from "react-redux";
+import { handleShowTaskDetails } from "../../../features/modals";
 
-function DetailsTask({ task, show, handleClose }) {
+function DetailsTask() {
+  const show = useSelector((state) => state.modals.value.showTaskDetails);
+  const task = useSelector((state) => state.current.currentTask);
+  const dispatch = useDispatch();
+
   return (
     <>
       <Modal
         className="pointer-events-auto"
         show={show}
         onHide={() => {
-          handleClose();
+          dispatch(handleShowTaskDetails(false));
         }}
         backdrop="static"
         keyboard={false}
@@ -48,7 +54,7 @@ function DetailsTask({ task, show, handleClose }) {
         <Modal.Footer>
           <button
             onClick={() => {
-              handleClose();
+              dispatch(handleShowTaskDetails(false));
             }}
             form="detailstask"
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-blue-400 rounded-2xl md:w-auto md:mb-0"

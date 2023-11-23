@@ -1,33 +1,29 @@
 import { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
+import { useSelector, useDispatch } from "react-redux";
+import { handleShowBoardEdit } from "../../../features/modals";
+import { EditBoardFunction } from "../../../features/boards";
 
-function EditBoard({ boardName, editFunction, previousBoardName }) {
+function EditBoard() {
   const [currentBoardName, setCurrentBoardName] = useState("");
 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const show = useSelector((state) => state.modals.value.showBoardEdit);
+  const boardName = useSelector((state) => state.current.currentBoardName);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (show === true) {
-      setCurrentBoardName(previousBoardName);
+      setCurrentBoardName(boardName);
     }
   }, [show]);
 
   return (
     <>
-      <div
-        onClick={() => {
-          handleShow();
-        }}
-      >
-        Edit
-      </div>
-
       <Modal
         show={show}
-        onHide={handleClose}
+        onHide={() => {
+          dispatch(handleShowBoardEdit(false));
+        }}
         backdrop="static"
         keyboard={false}
       >
@@ -72,7 +68,7 @@ function EditBoard({ boardName, editFunction, previousBoardName }) {
         <Modal.Footer>
           <button
             onClick={() => {
-              handleClose();
+              dispatch(handleShowBoardEdit(false));
             }}
             className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
           >
@@ -80,8 +76,13 @@ function EditBoard({ boardName, editFunction, previousBoardName }) {
           </button>
           <button
             onClick={() => {
-              handleClose();
-              editFunction(boardName, currentBoardName);
+              dispatch(handleShowBoardEdit(false));
+              dispatch(
+                EditBoardFunction({
+                  boardName: boardName,
+                  newName: currentBoardName,
+                })
+              );
               setCurrentBoardName("");
             }}
             form="editboard"
