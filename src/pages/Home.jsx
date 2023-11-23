@@ -40,7 +40,7 @@ function Home() {
   const [cookies, _] = useCookies(['access_token']);
 
   useLayoutEffect(() => {
-    if (cookies.access_token) {
+    if (!cookies.access_token) {
       navigate('/');
     }
   }, []);
