@@ -14,7 +14,7 @@ function Register() {
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
-    if (!cookies.access_token) {
+    if (cookies.access_token) {
       navigate('/');
     }
   }, [cookies]);
