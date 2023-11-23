@@ -24,7 +24,7 @@ function Landing() {
   }, []);
 
   const logout = () => {
-    setCookies('access_token', '');
+    setCookies('access_token', null);
     window.localStorage.removeItem('userID');
     window.localStorage.removeItem('username');
   };

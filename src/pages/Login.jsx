@@ -17,7 +17,7 @@ function Login() {
     if (!cookies.access_token) {
       navigate('/');
     }
-  }, []);
+  }, [cookies]);
 
   const onSubmit = async (e) => {
     e.preventDefault();

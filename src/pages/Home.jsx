@@ -43,7 +43,7 @@ function Home() {
     if (!cookies.access_token) {
       navigate('/');
     }
-  }, []);
+  }, [cookies]);
 
   useEffect(() => {
     if (status === 'idle') {
