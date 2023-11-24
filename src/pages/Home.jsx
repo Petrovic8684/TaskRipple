@@ -24,7 +24,12 @@ import {
   handleShowTaskEdit,
   handleShowTaskRemove,
 } from '../features/modals';
-import { FetchBoards, UpdateBoards, onChange } from '../features/boards';
+import {
+  FetchBoards,
+  UpdateBoards,
+  SetStatus,
+  onChange,
+} from '../features/boards';
 import { SetCurrentBoardName, SetCurrentTask } from '../features/current';
 import { handleShowBoardEdit } from '../features/modals';
 import { handleShowBoardRemove } from '../features/modals';
@@ -39,8 +44,8 @@ function Home() {
   const [cookies, _] = useCookies(['access_token']);
 
   useEffect(() => {
-    if (cookies.access_token) {
-      if (status === 'idle') {
+    if (status === 'idle' || status === 'successful') {
+      if (cookies.access_token) {
         if (isFirstLoad) {
           dispatch(FetchBoards({ cookies: cookies.access_token }));
           setIsFirstLoad(false);
@@ -48,15 +53,16 @@ function Home() {
         }
       }
     }
-  }, [status, dispatch]);
+  }, [status]);
 
   useEffect(() => {
     if (!isFirstLoad) {
       dispatch(UpdateBoards({ boards: boards }));
     }
-  }, [boards, dispatch]);
+  }, [boards]);
 
-  if (!cookies.access_token) return <Navigate to={'/'} />;
+  if (!cookies.access_token && status !== 'failed')
+    return <Navigate to={'/'} />;
 
   if (status === 'loading') {
     return <LoadingPage />;
@@ -67,9 +73,9 @@ function Home() {
   }
 
   return (
-    <section className='px-[3%] py-[50px] md:px-[12%]'>
+    <section className='px-[3%] py-[30px] md:py-[50px] md:px-[12%]'>
       <div className='flex flex-column justify-center items-center'>
-        <h1 className='text-4xl text-gray-700 font-bold text-center md:text-5xl'>
+        <h1 className='text-4xl text-gray-700 font-bold text-center md:text-5xl mb-[25px] md:mb-[10px]'>
           {window.localStorage.getItem('username')}'s boards
         </h1>
         <Link to='/' className='mb-3'>

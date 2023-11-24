@@ -1,6 +1,20 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 
 function ErrorPage({ error }) {
+  const [cookies, setCookies, removeCookies] = useCookies(['access_token']);
+
+  const logout = () => {
+    removeCookies('access_token');
+    window.localStorage.removeItem('userID');
+    window.localStorage.removeItem('username');
+  };
+
+  useEffect(() => {
+    logout();
+  }, []);
+
   return (
     <div className='h-[85vh] mx-10 flex flex-column justify-center items-center text-center'>
       <svg

@@ -17,7 +17,6 @@ export const FetchBoards = createAsyncThunk(
   async (arg, thunkAPI) => {
     try {
       const cookies = arg.cookies;
-
       const response = await axios.get(`${baseUrl}/home`, {
         params: {
           userID: window.localStorage.getItem('userID'),
@@ -204,6 +203,15 @@ const boardsSlice = createSlice({
         [action.payload.sourceId]: result,
       };
     },
+
+    SetStatus: (state, action) => {
+      state.status = action.payload;
+      if (action.payload === 'idle') {
+        state.boards = {};
+        state.isClash = false;
+        state.error = null;
+      }
+    },
   },
 
   extraReducers(builder) {
@@ -233,6 +241,7 @@ export const {
   EditTaskFunction,
   RemoveTaskFunction,
   ResetIsClash,
+  SetStatus,
   onChange,
 } = boardsSlice.actions;
 

@@ -10,7 +10,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const [cookies, setCookies] = useCookies(['access_token']);
+  const [cookies, setCookies, removeCookies] = useCookies(['access_token']);
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
@@ -29,6 +29,10 @@ function Login() {
       if (response.data.message === 'Username or password is incorrect!') {
         setMessage('Username or password is incorrect!');
         return;
+      }
+
+      if (cookies.access_token) {
+        removeCookies('access_token');
       }
 
       setCookies('access_token', response.data.token);

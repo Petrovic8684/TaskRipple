@@ -1,9 +1,9 @@
-import { useCallback, useState, forwardRef } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
+import { useCallback, useState, forwardRef } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const CustomToggle = forwardRef(({ children, onClick }, ref) => (
   <a
-    href=""
+    href=''
     ref={ref}
     onClick={(e) => {
       e.preventDefault();
@@ -15,7 +15,7 @@ const CustomToggle = forwardRef(({ children, onClick }, ref) => (
 ));
 
 const CustomMenu = forwardRef(
-  ({ children, style, className, "aria-labelledby": labeledBy }, ref) => {
+  ({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
     return (
       <div
         ref={ref}
@@ -38,7 +38,7 @@ function Task({ name, detailsButton, editButton, removeButton }) {
 
   return (
     <div
-      className="w-full max-h-[70px] min-h-[45px] py-2 justify-between items-center mb-[10px] px-3 bg-slate-200 rounded-lg flex flex-row"
+      className='w-full max-h-[70px] min-h-[45px] py-2 justify-between items-center mb-[10px] px-3 bg-slate-200 rounded-lg flex flex-row'
       onMouseOver={() => {
         setShowTaskButtons(true);
       }}
@@ -46,36 +46,36 @@ function Task({ name, detailsButton, editButton, removeButton }) {
         setShowTaskButtons(false);
       }}
       onTouchStart={() => {
-        document.body.classList.add("overflow-y-hidden");
-        document.addEventListener("touchmove", handleScroll, {
+        document.body.classList.add('overflow-y-hidden');
+        document.addEventListener('touchmove', handleScroll, {
           passive: false,
         });
       }}
       onTouchEnd={() => {
-        document.body.classList.remove("overflow-y-hidden");
-        document.removeEventListener("touchmove", handleScroll, {
+        document.body.classList.remove('overflow-y-hidden');
+        document.removeEventListener('touchmove', handleScroll, {
           passive: false,
         });
       }}
     >
       <h4
-        className="unselectable text-lg m-0 text-gray-700 break-words min-w-0"
-        unselectable="on"
+        className='max-w-[87%] unselectable text-lg m-0 text-gray-700 min-w-0 whitespace-nowrap truncate'
+        unselectable='on'
       >
         {name}
       </h4>
       {showTaskButtons && (
         <div>
           <Dropdown>
-            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+            <Dropdown.Toggle as={CustomToggle} id='dropdown-custom-components'>
               <svg
-                className="w-7 h-7 text-gray-800 dark:text-white"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="gray"
-                viewBox="0 0 16 3"
+                className='w-7 h-7 text-gray-800 dark:text-white'
+                aria-hidden='true'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='gray'
+                viewBox='0 0 16 3'
               >
-                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                <path d='M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z' />
               </svg>
             </Dropdown.Toggle>
             <Dropdown.Menu as={CustomMenu}>

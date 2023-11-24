@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleShowBoardEdit } from '../../../features/modals';
@@ -11,7 +11,13 @@ function EditBoard() {
   const boardName = useSelector((state) => state.current.currentBoardName);
   const dispatch = useDispatch();
 
+  // used to focus the element on show, for some reason autoFocus does not work here
+  const nameInputElement = useRef(null);
+
   useEffect(() => {
+    if (nameInputElement.current) {
+      nameInputElement.current.focus();
+    }
     if (show === true) {
       setCurrentBoardName(boardName);
     }
@@ -50,6 +56,7 @@ function EditBoard() {
               </div>
               <div className='md:w-2/3'>
                 <input
+                  ref={nameInputElement}
                   className='appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none bg-white focus:border-yellow-300'
                   id='inline-full-name'
                   type='text'
@@ -57,7 +64,6 @@ function EditBoard() {
                   onChange={(e) => {
                     setCurrentBoardName(e.target.value);
                   }}
-                  autoFocus
                   required
                   maxLength={29}
                 />

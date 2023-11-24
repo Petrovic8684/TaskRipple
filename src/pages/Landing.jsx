@@ -6,7 +6,7 @@ import ParticlesEffect from '../Components/ParticlesEffect.jsx';
 
 function Landing() {
   const [quote, setQuote] = useState({});
-  const [cookies, setCookies] = useCookies(['access_token']);
+  const [cookies, _, removeCookies] = useCookies(['access_token']);
 
   useEffect(() => {
     async function getQuote() {
@@ -24,7 +24,7 @@ function Landing() {
   }, []);
 
   const logout = () => {
-    setCookies('access_token', null);
+    removeCookies('access_token');
     window.localStorage.removeItem('userID');
     window.localStorage.removeItem('username');
   };

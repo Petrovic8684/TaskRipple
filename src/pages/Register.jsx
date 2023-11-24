@@ -10,7 +10,7 @@ function Register() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const [cookies, setCookies] = useCookies(['access_token']);
+  const [cookies, _] = useCookies(['access_token']);
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
