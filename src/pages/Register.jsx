@@ -61,6 +61,7 @@ function Register() {
                   autoComplete='off'
                   required
                   className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5'
+                  maxLength={22}
                 />
               </div>
               <div>
@@ -80,6 +81,7 @@ function Register() {
                   autoComplete='off'
                   required
                   className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5'
+                  maxLength={50}
                 />
               </div>
               <button
