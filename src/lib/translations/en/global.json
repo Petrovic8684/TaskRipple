@@ -1,0 +1,102 @@
+{
+    "landing": {
+        "taskRippleDescription": "is a simple way to manage your tasks.",
+        "getStarted": "Get Started",
+        "boards": "Boards",
+        "logout": "Logout",
+        "learnMore": "Learn More"
+    },
+    "learnMore": {
+        "about": "About",
+        "description": "Welcome to TaskRipple, a practical app focused on simplifying the planning of your everyday activities. Developed by Jovan Petrović, TaskRipple is designed for individuals seeking a straightforward tool to organize daily tasks and activities efficiently. Without unnecessary complexity, TaskRipple provides a user-friendly interface to help you plan and manage your day-to-day routine with ease. Whether it's creating a shopping list, scheduling appointments, or jotting down reminders, TaskRipple aims to be your uncomplicated companion for daily planning. Discover the convenience of a no-frills approach to organizing your routine with TaskRipple.",
+        "goBack": "Go Back"
+    },
+    "login": {
+        "loginHeader": "Login",
+        "login": "Login",
+        "username": "Username",
+        "password": "Password",
+        "dontHaveAccount": "Don't already have an account?",
+        "registerHere": "Register here",
+
+        "userDoesNotExist": "User does not exist!",
+        "usernameOrPassIncorrect": "Username or password is incorrect!"
+    },
+    "register": {
+        "registerNewAccount": "Register a new account",
+        "register": "Register",
+        "username": "Username",
+        "password": "Password",
+        "alreadyHaveAccount": "Already have an account?",
+        "loginHere": "Login here",
+
+        "userAlreadyExists": "User already exists!"
+    },
+    "home": {
+        "sBoards": "'s boards",
+        "looksLikeNoBoards": "Looks like you don't have any boards yet!",
+        "details": "Show details",
+        "edit": "Edit",
+        "remove": "Remove",
+        "error": "Error",
+        "thereAlreadyExistsSameName": "There already exists a board by that name!"
+    },
+    "errorPage": {
+        "error": "ERROR",
+        "message1": "Something went wrong while fetching ",
+        "message2": "your boards. Please restart the app and try again later."
+    },
+    "loadingPage":{
+        "loading": "LOADING"
+    },
+    "addBoard": {
+        "newBoard": "New Board",
+        "boardName": "Board name:",
+        "close": "Close",
+        "create": "Create"
+    },
+    "editBoard": {
+        "editBoard": "Edit Board",
+        "boardName": "Board name:",
+        "close": "Close",
+        "edit": "Edit"
+    },
+    "removeBoard": {
+        "removeBoard": "Remove Board",
+        "areYouSure": "Are you sure you want to remove this board?",
+        "no": "No",
+        "yes": "Yes"
+    },
+    "taskDetails": {
+        "taskDetails": "Task Details",
+        "name": "Task name:",
+        "description": "Description:",
+        "startdate": "Start date:",
+        "enddate": "End date:",
+        "close": "Close"
+    },
+    "addTask":{
+        "newTask": "New Task",
+        "taskName": "Task name:",
+        "description": "Description:",
+        "startdate": "Start date:",
+        "enddate": "End date:",
+        "close": "Close",
+        "create": "Create"
+    },
+    "editTask": {
+        "editTask": "Edit Task",
+        "name": "Task name:",
+        "description": "Description:",
+        "startdate": "Start date:",
+        "enddate": "End date:",
+        "close": "Close",
+        "edit": "Edit"
+    },
+    "removeTask": {
+        "removeTask": "Remove Task",
+        "areYouSure": "Are you sure you want to remove this task?",
+        "no": "No",
+        "yes": "Yes"
+    }
+}

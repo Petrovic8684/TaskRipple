@@ -2,11 +2,14 @@ import Modal from 'react-bootstrap/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleShowBoardRemove } from '../../../features/modals';
 import { RemoveBoardFunction } from '../../../features/boards';
+import { useTranslation } from 'react-i18next';
 
 function RemoveBoard() {
   const show = useSelector((state) => state.modals.value.showBoardRemove);
   const boardName = useSelector((state) => state.current.currentBoardName);
   const dispatch = useDispatch();
+
+  const [t, i18n] = useTranslation('global');
 
   return (
     <>
@@ -19,7 +22,7 @@ function RemoveBoard() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Remove Board</Modal.Title>
+          <Modal.Title>{t('removeBoard.removeBoard')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form
@@ -31,7 +34,7 @@ function RemoveBoard() {
             className='w-full md:max-w-sm md:w-auto'
           >
             <div className='md:flex md:items-center mb-6'>
-              <p>Are you sure you want to remove this board?</p>
+              <p>{t('removeBoard.areYouSure')}</p>
             </div>
           </form>
         </Modal.Body>
@@ -42,7 +45,7 @@ function RemoveBoard() {
             }}
             className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0'
           >
-            No
+            {t('removeBoard.no')}
           </button>
           <button
             onClick={() => {
@@ -52,7 +55,7 @@ function RemoveBoard() {
             form='removeboard'
             className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0'
           >
-            Yes
+            {t('removeBoard.yes')}
           </button>
         </Modal.Footer>
       </Modal>

@@ -1,0 +1,102 @@
+{
+    "landing": {
+        "taskRippleDescription": "je najbolji način za organizaciju vaših poslova.",
+        "getStarted": "Započnite",
+        "boards": "Table",
+        "logout": "Kraj rada",
+        "learnMore": "Saznajte više"
+    },
+    "learnMore": {
+        "about": "Šta je",
+        "description": "Dobrodošli u TaskRipple, praktičnu aplikaciju fokusiranu na pojednostavljenje planiranja Vaših svakodnevnih aktivnosti. TaskRipple, koji je razvio Jovan Petrović, dizajniran je za pojedince koji traže jednostavan alat za efikasno organizovanje dnevnih zadataka i aktivnosti. Bez nepotrebne složenosti, TaskRipple pruža interfejs prilagođen korisniku koji će Vam pomoći da sa lakoćom planirate i upravljate svojom svakodnevnom rutinom. Bilo da se radi o kreiranju liste za kupovinu, zakazivanju sastanaka ili beleženju podsetnika, TaskRipple ima za cilj da bude Vaš jednostavan pratilac za svakodnevno planiranje. Otkrijte pogodnost jednostavnog pristupa organizovanju Vaše rutine uz TaskRipple.",
+        "goBack": "Nazad"
+    },
+    "login": {
+        "loginHeader": "Prijavite se",
+        "login": "Prijava",
+        "username": "Korisničko ime",
+        "password": "Lozinka",
+        "dontHaveAccount": "Nemate nalog?",
+        "registerHere": "Registrujte se ovde",
+
+        "userDoesNotExist": "Korisnik ne postoji!",
+        "usernameOrPassIncorrect": "Netačno korisničko ime ili lozinka!"
+    },
+    "register": {
+        "registerNewAccount": "Registrujte se",
+        "register": "Registracija",
+        "username": "Korisničko ime",
+        "password": "Lozinka",
+        "alreadyHaveAccount": "Već imate nalog?",
+        "loginHere": "Prijavite se ovde",
+
+        "userAlreadyExists": "Korisnik već postoji!"
+    },
+    "home": {
+        "sBoards": " - table",
+        "looksLikeNoBoards": "Izgleda da još uvek nemate nijednu tablu!",
+        "details": "Prikaži detalje",
+        "edit": "Izmeni",
+        "remove": "Ukloni",
+        "error": "Greška",
+        "thereAlreadyExistsSameName": "Već postoji tabla pod tim imenom!"
+    },
+    "errorPage": {
+        "error": "GREŠKA",
+        "message1": "Desila se greška dok smo učitavali ",
+        "message2": "Vaše table. Molimo ponovo pokrenite aplikaciju i pokušajte opet kasnije."
+    },
+    "loadingPage":{
+        "loading": "UČITAVANJE"
+    },
+    "addBoard": {
+        "newBoard": "Nova tabla",
+        "boardName": "Naziv table:",
+        "close": "Zatvori",
+        "create": "Napravi"
+    },
+    "editBoard": {
+        "editBoard": "Izmeni tablu",
+        "boardName": "Naziv table:",
+        "close": "Zatvori",
+        "edit": "Izmeni"
+    },
+    "removeBoard": {
+        "removeBoard": "Ukloni tablu",
+        "areYouSure": "Da li Ste sigurni da želite da uklonite ovu tablu?",
+        "no": "Ne",
+        "yes": "Da"
+    },
+    "taskDetails": {
+        "taskDetails": "Detalji posla",
+        "name": "Naziv posla:",
+        "description": "Opis:",
+        "startdate": "Datum početka:",
+        "enddate": "Datum završetka:",
+        "close": "Zatvori"
+    },
+    "addTask":{
+        "newTask": "Novi posao",
+        "taskName": "Naziv posla:",
+        "description": "Opis:",
+        "startdate": "Datum početka:",
+        "enddate": "Datum završetka:",
+        "close": "Zatvori",
+        "create": "Napravi"
+    },
+    "editTask": {
+        "editTask": "Izmeni posao",
+        "name": "Naziv posla:",
+        "description": "Opis:",
+        "startdate": "Datum početka:",
+        "enddate": "Datum završetka:",
+        "close": "Zatvori",
+        "edit": "Izmeni"
+    },
+    "removeTask": {
+        "removeTask": "Ukloni posao",
+        "areYouSure": "Da li Ste sigurni da želite da uklonite ovaj posao?",
+        "no": "Ne",
+        "yes": "Da"
+    }
+}

@@ -24,17 +24,14 @@ import {
   handleShowTaskEdit,
   handleShowTaskRemove,
 } from '../features/modals';
-import {
-  FetchBoards,
-  UpdateBoards,
-  SetStatus,
-  onChange,
-} from '../features/boards';
+import { FetchBoards, UpdateBoards, onChange } from '../features/boards';
 import { SetCurrentBoardName, SetCurrentTask } from '../features/current';
 import { handleShowBoardEdit } from '../features/modals';
 import { handleShowBoardRemove } from '../features/modals';
 import LoadingPage from '../Components/Home/LoadingPage';
 import ErrorPage from '../Components/Home/ErrorPage';
+
+import { useTranslation } from 'react-i18next';
 
 function Home() {
   const dispatch = useDispatch();
@@ -61,6 +58,8 @@ function Home() {
     }
   }, [boards]);
 
+  const [t, i18n] = useTranslation('global');
+
   if (!cookies.access_token && status !== 'failed')
     return <Navigate to={'/'} />;
 
@@ -75,8 +74,11 @@ function Home() {
   return (
     <section className='px-[3%] py-[30px] md:py-[50px] md:px-[12%]'>
       <div className='flex flex-column justify-center items-center'>
-        <h1 className='text-4xl text-gray-700 font-bold text-center md:text-5xl mb-[25px] md:mb-[10px]'>
-          {window.localStorage.getItem('username')}'s boards
+        <h1 className='text-4xl text-gray-700 font-bold text-center md:text-5xl mb-[15px] md:mb-[10px] '>
+          <span className='break-all'>
+            {window.localStorage.getItem('username').toString()}
+          </span>
+          <span className='break-words'>{t('home.sBoards')}</span>
         </h1>
         <Link to='/' className='mb-3'>
           <svg
@@ -96,7 +98,7 @@ function Home() {
       </div>
       {Object.keys(boards).length === 0 && (
         <p className='mb-[15px] text-lg text-gray-600 text-center md:text-xl md:mb-8'>
-          Looks like you don't have any boards yet!
+          {t('home.looksLikeNoBoards')}
         </p>
       )}
       <AddBoard />
@@ -126,7 +128,7 @@ function Home() {
                       dispatch(SetCurrentBoardName(board));
                     }}
                   >
-                    Edit
+                    {t('home.edit')}
                   </div>
                 }
                 removeBoardButton={
@@ -136,7 +138,7 @@ function Home() {
                       dispatch(SetCurrentBoardName(board));
                     }}
                   >
-                    Remove
+                    {t('home.remove')}
                   </div>
                 }
                 addTaskButton={
@@ -197,7 +199,7 @@ function Home() {
                               );
                             }}
                           >
-                            Show details
+                            {t('home.details')}
                           </div>
                         }
                         editButton={
@@ -216,7 +218,7 @@ function Home() {
                               );
                             }}
                           >
-                            Edit
+                            {t('home.edit')}
                           </div>
                         }
                         removeButton={
@@ -235,7 +237,7 @@ function Home() {
                               );
                             }}
                           >
-                            Remove
+                            {t('home.remove')}
                           </div>
                         }
                       />
@@ -253,8 +255,8 @@ function Home() {
         <EditTask />
         <RemoveTask />
         <ErrorModal
-          name='Error'
-          details='There already exists a board by that name!'
+          name={t('home.error')}
+          details={t('home.thereAlreadyExistsSameName')}
         />
       </div>
     </section>

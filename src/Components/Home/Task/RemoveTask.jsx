@@ -1,13 +1,16 @@
-import Modal from "react-bootstrap/Modal";
-import { useSelector, useDispatch } from "react-redux";
-import { handleShowTaskRemove } from "../../../features/modals";
-import { RemoveTaskFunction } from "../../../features/boards";
+import Modal from 'react-bootstrap/Modal';
+import { useSelector, useDispatch } from 'react-redux';
+import { handleShowTaskRemove } from '../../../features/modals';
+import { RemoveTaskFunction } from '../../../features/boards';
+import { useTranslation } from 'react-i18next';
 
 function RemoveTask() {
   const show = useSelector((state) => state.modals.value.showTaskRemove);
   const boardName = useSelector((state) => state.current.currentBoardName);
   const task = useSelector((state) => state.current.currentTask);
   const dispatch = useDispatch();
+
+  const [t, i18n] = useTranslation('global');
 
   return (
     <>
@@ -16,23 +19,23 @@ function RemoveTask() {
         onHide={() => {
           dispatch(handleShowTaskRemove(false));
         }}
-        backdrop="static"
+        backdrop='static'
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Remove Task</Modal.Title>
+          <Modal.Title>{t('removeTask.removeTask')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form
             onSubmit={(e) => {
               e.preventDefault();
             }}
-            autoComplete="off"
-            id="removetask"
-            className="w-full md:max-w-sm md:w-auto"
+            autoComplete='off'
+            id='removetask'
+            className='w-full  md:w-auto'
           >
-            <div className="md:flex md:items-center mb-6">
-              <p>Are you sure you want to remove this task?</p>
+            <div className='md:flex md:items-center mb-6'>
+              <p>{t('removeTask.areYouSure')}</p>
             </div>
           </form>
         </Modal.Body>
@@ -41,9 +44,9 @@ function RemoveTask() {
             onClick={() => {
               dispatch(handleShowTaskRemove(false));
             }}
-            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0"
+            className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0'
           >
-            No
+            {t('removeTask.no')}
           </button>
           <button
             onClick={() => {
@@ -55,10 +58,10 @@ function RemoveTask() {
                 })
               );
             }}
-            form="removetask"
-            className="w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0"
+            form='removetask'
+            className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0'
           >
-            Yes
+            {t('removeTask.yes')}
           </button>
         </Modal.Footer>
       </Modal>

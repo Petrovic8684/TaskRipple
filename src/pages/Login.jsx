@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 import baseUrl from '../lib/api/apiUrl';
 
@@ -13,6 +14,8 @@ function Login() {
   const [cookies, setCookies, removeCookies] = useCookies(['access_token']);
   const navigate = useNavigate();
 
+  const [t, i18n] = useTranslation('global');
+
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -22,12 +25,12 @@ function Login() {
       });
 
       if (response.data.message === 'User does not exist!') {
-        setMessage('User does not exist!');
+        setMessage(t('login.userDoesNotExist'));
         return;
       }
 
       if (response.data.message === 'Username or password is incorrect!') {
-        setMessage('Username or password is incorrect!');
+        setMessage(t('login.usernameOrPassIncorrect'));
         return;
       }
 
@@ -53,7 +56,7 @@ function Login() {
         <div className='w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold text-gray-700 md:text-2xl'>
-              Login
+              {t('login.loginHeader')}
             </h1>
             <form className='space-y-4 md:space-y-6' onSubmit={onSubmit}>
               <div>
@@ -61,7 +64,7 @@ function Login() {
                   htmlFor='username'
                   className='block mb-2 text-sm font-medium text-gray-700'
                 >
-                  Username
+                  {t('login.username')}
                 </label>
                 <input
                   type='text'
@@ -72,7 +75,7 @@ function Login() {
                   }}
                   autoComplete='off'
                   required
-                  className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5'
+                  className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5 focus:border-0 focus:outline-0 focus:ring-2 focus:ring-blue-300'
                   maxLength={22}
                 />
               </div>
@@ -81,7 +84,7 @@ function Login() {
                   htmlFor='password'
                   className='block mb-2 text-sm font-medium text-gray-700'
                 >
-                  Password
+                  {t('login.password')}
                 </label>
                 <input
                   type='password'
@@ -92,7 +95,7 @@ function Login() {
                   }}
                   autoComplete='off'
                   required
-                  className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5'
+                  className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5 focus:border-0 focus:outline-0 focus:ring-2 focus:ring-blue-300'
                   maxLength={50}
                 />
               </div>
@@ -100,16 +103,16 @@ function Login() {
                 type='submit'
                 className='w-full text-white bg-blue-400 hover:bg-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
               >
-                Login
+                {t('login.login')}
               </button>
               <p className='text-red-600'>{message}</p>
               <p className='text-sm font-light text-gray-500'>
-                Don't already have an account?{' '}
+                {t('login.dontHaveAccount')}{' '}
                 <Link
                   to='/register'
                   className='font-medium text-blue-600 hover:underline'
                 >
-                  Register here
+                  {t('login.registerHere')}
                 </Link>
               </p>
             </form>

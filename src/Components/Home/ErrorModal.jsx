@@ -40,7 +40,7 @@ function ErrorModal({ name, details }) {
           }}
           className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-red-400 rounded-2xl md:w-auto md:mb-0'
         >
-          Okay
+          Ok
         </button>
       </Modal.Footer>
     </Modal>

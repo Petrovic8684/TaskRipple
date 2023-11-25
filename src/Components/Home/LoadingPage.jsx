@@ -1,7 +1,10 @@
 import React from 'react';
 import { PuffLoader } from 'react-spinners';
+import { useTranslation } from 'react-i18next';
 
 function LoadingPage() {
+  const [t, i18n] = useTranslation('global');
+
   return (
     <div>
       <PuffLoader
@@ -15,7 +18,7 @@ function LoadingPage() {
         }}
       />
       <h1 className='fixed top-[60%] left-[50%] -translate-x-[50%] -translate-y-[60%] text-blue-400'>
-        LOADING
+        {t('loadingPage.loading')}
       </h1>
     </div>
   );

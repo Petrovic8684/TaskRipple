@@ -3,10 +3,14 @@ import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ParticlesEffect from '../Components/ParticlesEffect.jsx';
+import { useTranslation } from 'react-i18next';
+import { Button } from 'react-bootstrap';
 
 function Landing() {
   const [quote, setQuote] = useState({});
   const [cookies, _, removeCookies] = useCookies(['access_token']);
+  const [message, setMessage] = useState('');
+  const [t, i18n] = useTranslation('global');
 
   useEffect(() => {
     async function getQuote() {
@@ -23,6 +27,27 @@ function Landing() {
     getQuote();
   }, []);
 
+  useEffect(() => {
+    if (navigator.languages.length !== 0) {
+      navigator.languages.map((language) => {
+        if (navigator.languages.includes('sr')) {
+          if (navigator.language !== 'sr' && i18n.language !== 'sr') {
+            setMessage(
+              'Aplikacija je dostupna i na srpskom jeziku. Promenite podrazumevani jezik svog web pregledača i osvežite stranicu.'
+            );
+            return;
+          } else {
+            setMessage('');
+            return;
+          }
+        } else {
+          setMessage('');
+          return;
+        }
+      });
+    }
+  }, [i18n.language]);
+
   const logout = () => {
     removeCookies('access_token');
     window.localStorage.removeItem('userID');
@@ -38,7 +63,7 @@ function Landing() {
               <span className='block w-full py-2 text-transparent bg-clip-text leading-12 bg-gradient-to-r from-blue-400 to-pink-500 lg:inline'>
                 TaskRipple
               </span>{' '}
-              <span>is a simple way to manage your tasks.</span>
+              <span>{t('landing.taskRippleDescription')}</span>
             </h1>
             <p className='mb-8 text-lg text-gray-600 md:text-xl lg:px-24'>
               {quote.content} <br /> -{quote.author}
@@ -49,7 +74,7 @@ function Landing() {
                   to='/login'
                   className='no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-blue-400 rounded-2xl sm:w-auto sm:mb-0'
                 >
-                  Get Started
+                  {t('landing.getStarted')}
                   <svg
                     className='w-4 h-4 ml-1'
                     xmlns='http://www.w3.org/2000/svg'
@@ -68,7 +93,7 @@ function Landing() {
                   to='/home'
                   className='no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-blue-400 rounded-2xl sm:w-auto sm:mb-0'
                 >
-                  Boards
+                  {t('landing.boards')}
                   <svg
                     className='w-4 h-4 ml-1'
                     xmlns='http://www.w3.org/2000/svg'
@@ -90,7 +115,7 @@ function Landing() {
                   onClick={logout}
                   className='no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-white bg-blue-400 rounded-2xl sm:w-auto sm:mb-0'
                 >
-                  Logout
+                  {t('landing.logout')}
                   <svg
                     fill='none'
                     stroke='currentColor'
@@ -110,7 +135,7 @@ function Landing() {
                 to='/learnmore'
                 className='no-underline inline-flex items-center justify-center w-full px-6 py-3 mb-2 text-lg text-blue bg-gray-200 rounded-2xl sm:w-auto sm:mb-0'
               >
-                Learn More
+                {t('landing.learnMore')}
                 <svg
                   className='w-4 h-4 ml-1'
                   fill='none'
@@ -126,6 +151,11 @@ function Landing() {
                   ></path>
                 </svg>
               </Link>
+            </div>
+            <div className='flex justify-center items-center'>
+              <div className='fixed mx-[50px] mt-[100px] text-md text-gray-400 md:text-xl lg:px-24 md:w-[50%]'>
+                {message}
+              </div>
             </div>
           </div>
         </div>

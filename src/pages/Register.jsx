@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 import baseUrl from '../lib/api/apiUrl';
 
@@ -13,6 +14,8 @@ function Register() {
   const [cookies, _] = useCookies(['access_token']);
   const navigate = useNavigate();
 
+  const [t, i18n] = useTranslation('global');
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -23,7 +26,7 @@ function Register() {
       });
 
       if (response.data.message === 'User already exists!') {
-        setMessage('User already exists!');
+        setMessage(t('register.userAlreadyExists'));
         return;
       }
 
@@ -41,7 +44,7 @@ function Register() {
         <div className='w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
             <h1 className='text-xl font-bold text-gray-700 md:text-2xl'>
-              Register a new accout
+              {t('register.registerNewAccount')}
             </h1>
             <form className='space-y-4 md:space-y-6' onSubmit={onSubmit}>
               <div>
@@ -49,7 +52,7 @@ function Register() {
                   htmlFor='username'
                   className='block mb-2 text-sm font-medium text-gray-700'
                 >
-                  Username
+                  {t('register.username')}
                 </label>
                 <input
                   type='text'
@@ -60,7 +63,7 @@ function Register() {
                   }}
                   autoComplete='off'
                   required
-                  className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5'
+                  className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5 focus:border-0 focus:outline-0 focus:ring-2 focus:ring-blue-300'
                   maxLength={22}
                 />
               </div>
@@ -69,7 +72,7 @@ function Register() {
                   htmlFor='password'
                   className='block mb-2 text-sm font-medium text-gray-700'
                 >
-                  Password
+                  {t('register.password')}
                 </label>
                 <input
                   type='password'
@@ -80,7 +83,7 @@ function Register() {
                   }}
                   autoComplete='off'
                   required
-                  className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5'
+                  className='bg-gray-50 border border-gray-300 text-gray-700 sm:text-sm rounded-lg block w-full p-2.5 focus:border-0 focus:outline-0 focus:ring-2 focus:ring-blue-300'
                   maxLength={50}
                 />
               </div>
@@ -88,16 +91,16 @@ function Register() {
                 type='submit'
                 className='w-full text-white bg-blue-400 hover:bg-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
               >
-                Register
+                {t('register.register')}
               </button>
               <p className='text-red-600'>{message}</p>
               <p className='text-sm font-light text-gray-500'>
-                Already have an account?{' '}
+                {t('register.alreadyHaveAccount')}{' '}
                 <Link
                   to='/login'
                   className='font-medium text-blue-600 hover:underline'
                 >
-                  Login here
+                  {t('register.loginHere')}
                 </Link>
               </p>
             </form>

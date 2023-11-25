@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleShowTaskEdit } from '../../../features/modals';
 import { EditTaskFunction } from '../../../features/boards';
+import { useTranslation } from 'react-i18next';
 
 function EditTask() {
   const [taskName, setTaskName] = useState('');
@@ -15,6 +16,8 @@ function EditTask() {
   const boardName = useSelector((state) => state.current.currentBoardName);
   const task = useSelector((state) => state.current.currentTask);
   const dispatch = useDispatch();
+
+  const [t, i18n] = useTranslation('global');
 
   useEffect(() => {
     if (show === true) {
@@ -36,7 +39,7 @@ function EditTask() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit Task</Modal.Title>
+          <Modal.Title>{t('editTask.editTask')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form
@@ -54,12 +57,12 @@ function EditTask() {
                   className='block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
                   htmlFor='inline-full-name'
                 >
-                  Name:
+                  {t('editTask.name')}
                 </label>
               </div>
               <div className='md:w-2/3'>
                 <input
-                  className='appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none bg-white focus:border-yellow-300'
+                  className='appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none bg-white focus:border-yellow-400'
                   id='inline-full-name'
                   type='text'
                   value={taskName}
@@ -77,12 +80,12 @@ function EditTask() {
                   className='block md:relative md:-top-9 text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
                   htmlFor='inline-full-description'
                 >
-                  Description:
+                  {t('editTask.description')}
                 </label>
               </div>
               <div className='md:w-2/3'>
                 <textarea
-                  className='resize-none appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none bg-white focus:border-yellow-300'
+                  className='resize-none appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none bg-white focus:border-yellow-400'
                   id='inline-full-description'
                   type='text'
                   value={taskDescription}
@@ -100,7 +103,7 @@ function EditTask() {
                   className='block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
                   htmlFor='inline-full-startdate'
                 >
-                  Start date:
+                  {t('editTask.startdate')}
                 </label>
               </div>
               <div className='md:w-2/3'>
@@ -120,7 +123,7 @@ function EditTask() {
                   className='block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
                   htmlFor='inline-full-enddate'
                 >
-                  End date:
+                  {t('editTask.enddate')}
                 </label>
               </div>
               <div className='md:w-2/3'>
@@ -143,7 +146,7 @@ function EditTask() {
             }}
             className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0'
           >
-            Close
+            {t('editTask.close')}
           </button>
           <button
             onClick={() => {
@@ -165,9 +168,9 @@ function EditTask() {
               setTaskEndDate('');
             }}
             form='edittask'
-            className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-yellow-300 rounded-2xl md:w-auto md:mb-0'
+            className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-yellow-400 rounded-2xl md:w-auto md:mb-0'
           >
-            Edit
+            {t('editTask.edit')}
           </button>
         </Modal.Footer>
       </Modal>

@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleShowTaskAdd } from '../../../features/modals';
 import { AddTaskFunction } from '../../../features/boards';
+import { useTranslation } from 'react-i18next';
 
 function AddTask() {
   const [taskName, setTaskName] = useState('');
@@ -15,6 +16,8 @@ function AddTask() {
   const boardName = useSelector((state) => state.current.currentBoardName);
   const dispatch = useDispatch();
 
+  const [t, i18n] = useTranslation('global');
+
   return (
     <Modal
       show={show}
@@ -25,7 +28,7 @@ function AddTask() {
       keyboard={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>New Task</Modal.Title>
+        <Modal.Title>{t('addTask.newTask')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form
@@ -57,7 +60,7 @@ function AddTask() {
                 className='block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
                 htmlFor='inline-full-name'
               >
-                Task name:
+                {t('addTask.taskName')}
               </label>
             </div>
             <div className='md:w-2/3'>
@@ -80,7 +83,7 @@ function AddTask() {
                 className='block md:relative md:-top-9 text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
                 htmlFor='inline-full-description'
               >
-                Description:
+                {t('addTask.description')}
               </label>
             </div>
             <div className='md:w-2/3'>
@@ -103,7 +106,7 @@ function AddTask() {
                 className='block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
                 htmlFor='inline-full-startdate'
               >
-                Start date:
+                {t('addTask.startdate')}
               </label>
             </div>
             <div className='md:w-2/3'>
@@ -123,7 +126,7 @@ function AddTask() {
                 className='block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
                 htmlFor='inline-full-enddate'
               >
-                End date:
+                {t('addTask.enddate')}
               </label>
             </div>
             <div className='md:w-2/3'>
@@ -146,13 +149,13 @@ function AddTask() {
           }}
           className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0'
         >
-          Close
+          {t('addTask.close')}
         </button>
         <button
           form='addtask'
           className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-blue-400 rounded-2xl md:w-auto md:mb-0'
         >
-          Create
+          {t('addTask.create')}
         </button>
       </Modal.Footer>
     </Modal>

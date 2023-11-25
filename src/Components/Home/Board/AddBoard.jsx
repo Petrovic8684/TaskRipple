@@ -3,12 +3,15 @@ import Modal from 'react-bootstrap/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleShowBoardAdd } from '../../../features/modals';
 import { AddBoardFunction } from '../../../features/boards';
+import { useTranslation } from 'react-i18next';
 
 function AddBoard() {
   const [boardName, setBoardName] = useState('');
 
   const show = useSelector((state) => state.modals.value.showBoardAdd);
   const dispatch = useDispatch();
+
+  const [t, i18n] = useTranslation('global');
 
   return (
     <>
@@ -44,7 +47,7 @@ function AddBoard() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>New Board</Modal.Title>
+          <Modal.Title>{t('addBoard.newBoard')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form
@@ -64,7 +67,7 @@ function AddBoard() {
                   className='block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4'
                   htmlFor='inline-full-name'
                 >
-                  Board name:
+                  {t('addBoard.boardName')}
                 </label>
               </div>
               <div className='md:w-2/3'>
@@ -91,13 +94,13 @@ function AddBoard() {
             }}
             className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-gray-400 rounded-2xl md:w-auto md:mb-0'
           >
-            Close
+            {t('addBoard.close')}
           </button>
           <button
             form='addboard'
             className='w-full px-[17px] py-[10px] mb-2 text-lg text-white bg-blue-400 rounded-2xl md:w-auto md:mb-0'
           >
-            Create
+            {t('addBoard.create')}
           </button>
         </Modal.Footer>
       </Modal>

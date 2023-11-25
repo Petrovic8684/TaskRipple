@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { useTranslation } from 'react-i18next';
 
 function ErrorPage({ error }) {
   const [cookies, setCookies, removeCookies] = useCookies(['access_token']);
@@ -15,6 +16,8 @@ function ErrorPage({ error }) {
     logout();
   }, []);
 
+  const [t, i18n] = useTranslation('global');
+
   return (
     <div className='h-[85vh] mx-10 flex flex-column justify-center items-center text-center'>
       <svg
@@ -26,10 +29,10 @@ function ErrorPage({ error }) {
       >
         <path d='M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z' />
       </svg>
-      <h1 className='text-red-500'>ERROR</h1>
+      <h1 className='text-red-500'>{t('errorPage.error')}</h1>
       <h4 className='mb-3'>
-        Something went wrong while fetching <br className='hidden md:block' />{' '}
-        your boards. Please restart the app and try again later.
+        {t('errorPage.message1')}
+        <br className='hidden md:block' /> {t('errorPage.message2')}
       </h4>
       <h6 className='text-red-400'>{error}</h6>
     </div>
