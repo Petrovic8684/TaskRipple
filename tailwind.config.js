@@ -21,6 +21,8 @@ export default {
 
       '2xl': '1536px',
       // => @media (min-width: 1536px) { ... }
+
+      vertical_md: { raw: '(min-height: 750px)' },
     },
   },
   plugins: [],

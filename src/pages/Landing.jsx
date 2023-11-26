@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ParticlesEffect from '../Components/ParticlesEffect.jsx';
 import { useTranslation } from 'react-i18next';
-import { Button } from 'react-bootstrap';
 
 function Landing() {
   const [quote, setQuote] = useState({});
   const [cookies, _, removeCookies] = useCookies(['access_token']);
-  const [message, setMessage] = useState('');
   const [t, i18n] = useTranslation('global');
 
   useEffect(() => {
@@ -26,27 +24,6 @@ function Landing() {
 
     getQuote();
   }, []);
-
-  useEffect(() => {
-    if (navigator.languages.length !== 0) {
-      navigator.languages.map((language) => {
-        if (navigator.languages.includes('sr')) {
-          if (navigator.language !== 'sr' && i18n.language !== 'sr') {
-            setMessage(
-              'Aplikacija je dostupna i na srpskom jeziku. Promenite podrazumevani jezik svog web pregledača i osvežite stranicu.'
-            );
-            return;
-          } else {
-            setMessage('');
-            return;
-          }
-        } else {
-          setMessage('');
-          return;
-        }
-      });
-    }
-  }, [i18n.language]);
 
   const logout = () => {
     removeCookies('access_token');
@@ -151,11 +128,6 @@ function Landing() {
                   ></path>
                 </svg>
               </Link>
-            </div>
-            <div className='flex justify-center items-center'>
-              <div className='fixed mx-[50px] mt-[100px] text-md text-gray-400 md:text-xl lg:px-24 md:w-[50%]'>
-                {message}
-              </div>
             </div>
           </div>
         </div>

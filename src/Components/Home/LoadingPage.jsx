@@ -17,7 +17,7 @@ function LoadingPage() {
           transform: 'translate(-50%, -40%)',
         }}
       />
-      <h1 className='fixed top-[60%] left-[50%] -translate-x-[50%] -translate-y-[60%] text-blue-400'>
+      <h1 className='fixed top-[80%] left-[50%] -translate-x-[50%] -translate-y-[80%] vertical_md:top-[60%] vertical_md:-translate-y-[60%] text-blue-400'>
         {t('loadingPage.loading')}
       </h1>
     </div>
