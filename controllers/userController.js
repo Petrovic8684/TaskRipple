@@ -10,7 +10,6 @@ const loginUser = async (req, res) => {
   const user = await UserModel.findOne({ username });
 
   if (!user) {
-    res.status(404);
     return res.json({ message: 'User does not exist!' });
   }
 
