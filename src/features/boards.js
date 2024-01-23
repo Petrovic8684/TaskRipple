@@ -24,7 +24,7 @@ export const FetchBoards = createAsyncThunk(
         headers: { authorization: cookies },
       });
 
-      if (response.status === 404) {
+      if (response.status == 404) {
         throw new Error('Could not find user by that id!');
       }
 
@@ -50,11 +50,11 @@ export const UpdateBoards = createAsyncThunk(
         boards: JSON.stringify(arg.boards),
       });
 
-      if (response.status === 404) {
+      if (response.status == 404) {
         throw new Error('User does not exist!');
       }
 
-      if (response.status === 200) {
+      if (response.status == 200) {
         console.log('Records up to date!');
         return;
       }

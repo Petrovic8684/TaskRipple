@@ -24,12 +24,12 @@ function Login() {
         password,
       });
 
-      if (response.status === 404) {
+      if (response.status == 404) {
         setMessage(t('login.userDoesNotExist'));
         return;
       }
 
-      if (response.status === 403) {
+      if (response.status == 403) {
         setMessage(t('login.usernameOrPassIncorrect'));
         return;
       }
