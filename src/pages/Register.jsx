@@ -25,7 +25,7 @@ function Register() {
         password,
       });
 
-      if (response.status == 400) {
+      if (response.data.message === 'User already exists!') {
         setMessage(t('register.userAlreadyExists'));
         return;
       }
