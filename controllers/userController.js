@@ -10,19 +10,17 @@ const loginUser = async (req, res) => {
   const user = await UserModel.findOne({ username });
 
   if (!user) {
-    return res.status(404).json({ message: 'User does not exist!' });
+    return res.json({ message: 'User does not exist!' });
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
-    return res
-      .status(403)
-      .json({ message: 'Username or password is incorrect!' });
+    return res.json({ message: 'Username or password is incorrect!' });
   }
 
   const token = jwt.sign({ id: user._id }, process.env.TOKEN_SECRET);
-  res.status(200).json({ token, userID: user._id });
+  res.json({ token, userID: user._id });
 };
 
 // @desc    Registers a user in.
@@ -33,7 +31,7 @@ const registerUser = async (req, res) => {
   const user = await UserModel.findOne({ username });
 
   if (user) {
-    return res.status(400).json({ message: 'User already exists!' });
+    return res.json({ message: 'User already exists!' });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -46,7 +44,7 @@ const registerUser = async (req, res) => {
 
   await newUser.save();
 
-  res.status(200).json({ message: 'User registered successfully!' });
+  res.json({ message: 'User registered successfully!' });
 };
 
 export { loginUser, registerUser };

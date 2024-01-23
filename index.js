@@ -15,7 +15,7 @@ app.use(express.json());
 connectDB();
 
 app.get('/', (req, res) => {
-  res.status(200).send('Welcome to TaskRipple!');
+  res.send('Welcome to TaskRipple!');
 });
 
 app.use('/users', userRoutes);

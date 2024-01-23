@@ -7,14 +7,12 @@ const fetchBoards = async (req, res) => {
   try {
     const user = await UserModel.findOne({ _id: req.query.userID });
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: 'Could not find user by that id!' });
+      return res.json({ message: 'Could not find user by that id!' });
     }
 
-    res.status(302).json(user.boards);
+    res.json(user.boards);
   } catch (err) {
-    res.status(500).json(err);
+    res.json(err);
   }
 };
 
@@ -26,11 +24,11 @@ const updateBoards = async (req, res) => {
     const user = await UserModel.findOne({ _id: req.body.userID });
 
     if (!user) {
-      return res.status(404).json({ message: 'User does not exist!' });
+      return res.json({ message: 'User does not exist!' });
     }
 
     if (user.boards === req.body.boards) {
-      return res.status(200).json({ message: 'Records up to date!' });
+      return res.json({ message: 'Records up to date!' });
     }
 
     const result = await UserModel.findOneAndUpdate(
@@ -41,9 +39,9 @@ const updateBoards = async (req, res) => {
       }
     );
 
-    res.status(200).json(result.boards);
+    res.json(result.boards);
   } catch (err) {
-    res.status(500).json(err);
+    res.json(err);
   }
 };
 
