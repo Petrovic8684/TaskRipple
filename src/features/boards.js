@@ -17,7 +17,7 @@ export const FetchBoards = createAsyncThunk(
   async (arg, thunkAPI) => {
     try {
       const cookies = arg.cookies;
-      const response = await axios.get(`${baseUrl}/home`, {
+      const response = await axios.get(`${baseUrl}/boards/fetch`, {
         params: {
           userID: window.localStorage.getItem('userID'),
         },
@@ -45,7 +45,7 @@ export const UpdateBoards = createAsyncThunk(
   'boards/UpdateBoards',
   async (arg, thunkAPI) => {
     try {
-      const response = await axios.put(`${baseUrl}/home`, {
+      const response = await axios.put(`${baseUrl}/boards/update`, {
         userID: window.localStorage.getItem('userID'),
         boards: JSON.stringify(arg.boards),
       });
