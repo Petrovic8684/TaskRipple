@@ -4,7 +4,7 @@ import { fetchBoards, updateBoards } from '../controllers/boardController.js';
 
 const router = express.Router();
 
-router.use(verifyToken);
+//router.use(verifyToken);
 router.route('/fetch').get(fetchBoards);
 router.route('/update').put(updateBoards);
 
