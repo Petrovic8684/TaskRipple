@@ -10,14 +10,20 @@ function Landing() {
   const [cookies, _, removeCookies] = useCookies(["access_token"]);
   const [t, i18n] = useTranslation("global");
 
+  const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+  const apiUrl = "https://zenquotes.io/api/random";
+
   useEffect(() => {
     async function getQuote() {
-      const response = await axios.get("https://zenquotes.io/api/random");
-      setQuote((quote) => ({
-        ...quote,
-        content: response.data.q,
-        author: response.data.a,
-      }));
+      try {
+        const response = await axios.get(proxyUrl + apiUrl);
+        setQuote({
+          content: response.data[0].q,
+          author: response.data[0].a,
+        });
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     getQuote();
