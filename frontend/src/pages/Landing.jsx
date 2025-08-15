@@ -6,28 +6,8 @@ import ParticlesEffect from "../Components/ParticlesEffect.jsx";
 import { useTranslation } from "react-i18next";
 
 function Landing() {
-  const [quote, setQuote] = useState({});
   const [cookies, _, removeCookies] = useCookies(["access_token"]);
   const [t, i18n] = useTranslation("global");
-
-  const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-  const apiUrl = "https://zenquotes.io/api/random";
-
-  useEffect(() => {
-    async function getQuote() {
-      try {
-        const response = await axios.get(proxyUrl + apiUrl);
-        setQuote({
-          content: response.data[0].q,
-          author: response.data[0].a,
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    getQuote();
-  }, []);
 
   const logout = () => {
     removeCookies("access_token");
@@ -46,10 +26,7 @@ function Landing() {
               </span>{" "}
               <span>{t("landing.taskRippleDescription")}</span>
             </h1>
-            <p className="mb-8 text-lg text-gray-600 md:text-xl lg:px-24">
-              {quote.content} <br /> -{quote.author}
-            </p>
-            <div className="mb-4 space-x-0 sm:space-x-2 sm:mb-8">
+            <div className="mt-8 mb-4 space-x-0 sm:space-x-2 sm:mb-8">
               {!cookies.access_token ? (
                 <Link
                   to="/login"
